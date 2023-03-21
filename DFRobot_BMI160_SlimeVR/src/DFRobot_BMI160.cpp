@@ -9,7 +9,7 @@
  * @url https://github.com/DFRobot/DFRobot_BMI160
  */
 
-#include"DFRobot_BMI160.h"
+#include "DFRobot_BMI160.h"
 
 const uint8_t int_mask_lookup_table[13] = {
     BMI160_INT1_SLOPE_MASK,
