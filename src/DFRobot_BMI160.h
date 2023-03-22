@@ -653,20 +653,28 @@ typedef int8_t (*bmi160ComFptrT)(uint8_t dev_addr, uint8_t reg_addr, uint8_t *da
 typedef void (*bmi160DelayFptrT)(uint32_t period);
 
 struct bmi160Dev {
-  uint8_t chipId;   /**< Chip Id */
-  uint8_t id;       /**< Device Id */
-  uint8_t interface;/**< 0 - I2C , 1 - SPI Interface */
-  enum eBmi160AnySigMotionActiveInterruptState any_sig_sel;/**< Hold active interrupts status for any and sig motion 0 - Any-motion enable, 1 - Sig-motion enable,  -1 neither any-motion nor sig-motion selected */
-  struct bmi160Cfg accelCfg;                               /**< Structure to configure Accel sensor */
-  struct bmi160Cfg prevAccelCfg;/**< Structure to hold previous/old accel config parameters.This is used at driver level to prevent overwriting of samedata, hence user does not change it in the code */
-  struct bmi160Cfg gyroCfg;     /**< Structure to configure Gyro sensor */
-  struct bmi160Cfg prevGyroCfg; /**< Structure to hold previous/old gyro config parameters.This is used at driver level to prevent overwriting of same data, hence user does not change it in the code */
-  struct bmi160AuxCfg auxCfg;   /**< Structure to configure the auxiliary sensor */
-  struct bmi160AuxCfg prevAuxCfg;/**< Structure to hold previous/old aux config parameters.This is used at driver level to prevent overwriting of samedata, hence user does not change it in the code */
-  struct bmi160FifoFrame *fifo; /**< FIFO related configurations */
-  bmi160ComFptrT read;          /**< Read function pointer */
-  bmi160ComFptrT write;         /**< Write function pointer */
-  bmi160DelayFptrT delayMs;     /**<  Delay function pointer */
+  uint8_t chipId;                 /**< Chip Id */
+  uint8_t id;                     /**< Device Id */
+  uint8_t interface;              /**< 0 - I2C , 1 - SPI Interface */
+  /**< Hold active interrupts status for any and sig motion 0 - Any-motion enable, 1 - Sig-motion enable,  -1 neither any-motion nor sig-motion selected */
+  enum eBmi160AnySigMotionActiveInterruptState any_sig_sel;
+  struct bmi160Cfg accelCfg;      /**< Structure to configure Accel sensor */
+  /**< Structure to hold previous/old accel config parameters.This is used at driver level to prevent overwriting of samedata, hence user does not change it in the code */
+  struct bmi160Cfg prevAccelCfg;  
+  struct bmi160Cfg gyroCfg;       /**< Structure to configure Gyro sensor */
+  /**< Structure to hold previous/old gyro config parameters.This is used at driver level to prevent overwriting of same data, hence user does not change it in the code */
+  struct bmi160Cfg prevGyroCfg;   
+  struct bmi160AuxCfg auxCfg;     /**< Structure to configure the auxiliary sensor */
+  /**< Structure to hold previous/old aux config parameters.This is used at driver level to prevent overwriting of samedata, hence user does not change it in the code */
+  struct bmi160AuxCfg prevAuxCfg; 
+  struct bmi160FifoFrame *fifo;   /**< FIFO related configurations */
+  bmi160ComFptrT read;            /**< Read function pointer */
+  bmi160ComFptrT write;           /**< Write function pointer */
+  bmi160DelayFptrT delayMs;       /**< Delay function pointer */
+  const int speedMax = 10000000;  /**< Max connection speed supported by BMI160 */
+  const int dataOrder = MSBFIRST; /**< BMI160 expects most significant bit first */
+  const int dataMode = SPI_MODE0; /**< SPI mode 0 or 3 is allowed */
+  SPISettings spiSettings = SPISettings(speedMax, dataOrder, dataMode); /**< Settings used for SPI interface */
 };
 
 /**
@@ -928,7 +936,17 @@ public:
    * @return BMI160_OK(0) means success
    */
   int8_t I2cInit(int8_t i2c_addr = BMI160_I2C_ADDR);
-  
+
+  /**
+   * @fn SPIInit
+   * @brief set the SPI select pin and initialize communication
+   * @param chip_select  bmi160 select pin 
+   * @n     1: BMI160 at first select pin
+   * @n    2+: additional BMI160
+   * @return BMI160_OK(0) means success
+   */
+  int8_t SPIInit(int8_t chip_select);
+
   /**
    * @fn getSensorData
    * @brief select mode and save returned data to parameter data.
@@ -1037,10 +1055,8 @@ public:
   uint8_t stepLowPowerMode=1;
 
   private:
-    int8_t I2cInit(struct bmi160Dev *dev);
-    int8_t SPIInit();
-    int8_t SPIInit(struct bmi160Dev *dev);
-    
+    int8_t COMInit(bmi160Dev *dev);
+
     int8_t softReset(struct bmi160Dev *dev);
     void   defaultParamSettg(struct bmi160Dev *dev);
     

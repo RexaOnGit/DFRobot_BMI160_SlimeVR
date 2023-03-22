@@ -41,24 +41,17 @@ int8_t DFRobot_BMI160::I2cInit(int8_t i2c_addr)
 {
   Obmi160->id = i2c_addr;
   Obmi160->interface = BMI160_I2C_INTF;
-  return DFRobot_BMI160::I2cInit(Obmi160);
+  return DFRobot_BMI160::COMInit(Obmi160);
 }
 
-int8_t DFRobot_BMI160::SPIInit()
+int8_t DFRobot_BMI160::SPIInit(int8_t chip_select)
 {
-  //SPI.begin();
-  //pinMode(10,OUTPUT);
-  //Obmi160->id = 0;
-  //Obmi160->interface = BMI160_SPI_INTF;
-  return BMI160_OK;
+  Obmi160->id = chip_select;
+  Obmi160->interface = BMI160_SPI_INTF;
+  return DFRobot_BMI160::COMInit(Obmi160);
 }
 
-int8_t DFRobot_BMI160::SPIInit(struct bmi160Dev *dev)
-{
-  return BMI160_OK;
-}
-
-int8_t DFRobot_BMI160::I2cInit(struct bmi160Dev *dev)
+int8_t DFRobot_BMI160::COMInit(struct bmi160Dev *dev)
 {
   int8_t rslt=BMI160_OK;
   uint8_t chip_id=0;
@@ -911,19 +904,43 @@ int8_t DFRobot_BMI160::I2cSetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8
 
 int8_t DFRobot_BMI160::SPIGetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint16_t len)
 {
-  digitalWrite(10,LOW);
-  //SPI.transfer(0x6B);
-  //SPI.transfer(0x10);
-  uint8_t buff[10]={0};
-  for(int i = 0; i < 10; i++){
-    buff[i] = SPI.transfer(0x00);
+  int8_t select_pin = dev->id;
+  SPI.beginTransaction(dev->spiSettings);
+  digitalWrite(select_pin,LOW);
+
+  for(int i = 0; i < len; i++){
+    data[i] = SPI.transfer((reg_addr | 0x80) + i);
+    delay(1);
   }
-  
-  digitalWrite(10,HIGH);
+
+  digitalWrite(select_pin,HIGH);
+  SPI.endTransaction();
   return BMI160_OK;
 }
 int8_t DFRobot_BMI160::SPISetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint16_t len)
 {
+  int select_pin = dev->id;
+  if ((dev->prevAccelCfg.power == BMI160_ACCEL_NORMAL_MODE)||(dev->prevGyroCfg.power == BMI160_GYRO_NORMAL_MODE)){
+    SPI.beginTransaction(dev->spiSettings);
+    digitalWrite(select_pin,LOW);
+    for(int i = 0; i < len; i++){
+      SPI.transfer16(word(reg_addr,data[i]));
+      delay(1);
+    }
+    digitalWrite(select_pin,HIGH);
+    SPI.endTransaction();
+  }else{
+    for(int i = 0; i < len; i++){
+      SPI.beginTransaction(dev->spiSettings);
+      digitalWrite(select_pin,LOW);
+
+      SPI.transfer16(word((reg_addr + i),data[i]));
+      digitalWrite(select_pin,HIGH);
+
+      SPI.endTransaction();
+      delay(1);
+    }
+  }
   return BMI160_OK;
 }
 
