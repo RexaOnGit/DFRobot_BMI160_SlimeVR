@@ -947,6 +947,18 @@ public:
    */
   int8_t SPIInit(int8_t chip_select);
 
+  /** Read a BMI160 register directly.
+  * @param reg register address
+  * @return 8-bit register value
+  */
+  uint8_t getRegister(uint8_t reg);
+
+  /** Write a BMI160 register directly.
+  * @param reg register address
+  * @param data 8-bit register value
+  */
+  void setRegister(uint8_t reg, uint8_t * data);
+
   /**
    * @fn getSensorData
    * @brief select mode and save returned data to parameter data.
