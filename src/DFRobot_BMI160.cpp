@@ -1014,6 +1014,26 @@ bool DFRobot_BMI160::getFIFOBytes(uint8_t *data, uint16_t length) {
   return ok;
 }
 
+void DFRobot_BMI160::setFIFOHeaderModeEnabled(bool enabled) {
+  setBits(BMI160_FIFO_CONFIG_1_ADDR, BMI160_FIFO_HEADER_EN_BIT, 1, enabled ? 0x1 : 0);
+}
+
+/** Set gyroscope FIFO enabled value.
+ * @param enabled New gyroscope FIFO enabled value
+ * @see BMI160_RA_FIFO_CONFIG_1
+ */
+void DFRobot_BMI160::setGyroFIFOEnabled(bool enabled) {
+  setBits(BMI160_FIFO_CONFIG_1_ADDR, BMI160_FIFO_GYR_EN_BIT, 1, enabled ? 0x1 : 0);
+}
+
+/** Set accelerometer FIFO enabled value.
+ * @param enabled New accelerometer FIFO enabled value
+ * @see BMI160_RA_FIFO_CONFIG_1
+ */
+void DFRobot_BMI160::setAccelFIFOEnabled(bool enabled) {
+  setBits(BMI160_FIFO_CONFIG_1_ADDR, BMI160_FIFO_ACC_EN_BIT, 1, enabled ? 0x1 : 0);
+}
+
 bool DFRobot_BMI160::getErrReg(uint8_t* out) {
   uint8_t *buffer;
   bool ok = getRegs(BMI160_ERROR_REG_ADDR, buffer, 1, Obmi160);

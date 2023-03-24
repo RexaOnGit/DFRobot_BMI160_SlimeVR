@@ -576,6 +576,10 @@
 #define BMI160_NVM_STATUS_POS         UINT8_C(4)
 #define BMI160_NVM_STATUS_MSK         UINT8_C(0x10)
 
+#define BMI160_FIFO_HEADER_EN_BIT     UINT8_C(4)
+#define BMI160_FIFO_ACC_EN_BIT        UINT8_C(6)
+#define BMI160_FIFO_GYR_EN_BIT        UINT8_C(7)
+
 /* BIT SLICE GET AND SET FUNCTIONS */
 #define  BMI160_GET_BITS(regvar, bitname)\
     ((regvar & bitname##_MSK) >> bitname##_POS)
@@ -1103,6 +1107,12 @@ public:
   bool getFIFOCount(uint16_t* outCount);
 
   bool getFIFOBytes(uint8_t *data, uint16_t length);
+
+  void setFIFOHeaderModeEnabled(bool enabled);
+
+  void setGyroFIFOEnabled(bool enabled);
+
+  void setAccelFIFOEnabled(bool enabled);
 
   uint8_t onlyAccel=1;
   uint8_t onlyGyro=2;
