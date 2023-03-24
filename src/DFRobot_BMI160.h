@@ -926,7 +926,17 @@ enum bmi160StepDetectMode {
 class DFRobot_BMI160{
 public:
   DFRobot_BMI160();
-  
+  void initialize(
+    uint8_t addr,
+    uint8_t gyroRate = BMI160_GYRO_ODR_800HZ,
+    uint8_t gyroRange = BMI160_GYRO_RANGE_500_DPS,
+    //uint8_t gyroFilterMode,
+    uint8_t accelRate = BMI160_ACCEL_ODR_800HZ,
+    uint8_t accelRange = BMI160_ACCEL_RANGE_4G,
+    //uint8_t accelFilterMode,
+    uint8_t interface = BMI160_I2C_INTF
+  );
+
   /**
    * @fn I2cInit
    * @brief set the i2c addr and init the i2c.
@@ -957,7 +967,7 @@ public:
   * @param reg register address
   * @param data 8-bit register value
   */
-  void setRegister(uint8_t reg, uint8_t * data);
+  void setRegister(uint8_t reg, uint8_t data);
 
   /**
    * @fn getSensorData

@@ -11,6 +11,9 @@
 
 #include "DFRobot_BMI160.h"
 
+#define BMI160_ACCEL_POWERUP_DELAY_MS 10
+#define BMI160_GYRO_POWERUP_DELAY_MS 100
+
 const uint8_t int_mask_lookup_table[13] = {
     BMI160_INT1_SLOPE_MASK,
     BMI160_INT1_SLOPE_MASK,
@@ -27,18 +30,43 @@ const uint8_t int_mask_lookup_table[13] = {
     BMI160_INT2_FIFO_WM_MASK
 };
 
-DFRobot_BMI160::DFRobot_BMI160()
-{
-  Wire.begin();
+DFRobot_BMI160::DFRobot_BMI160() {};
+
+void DFRobot_BMI160::initialize(uint8_t addr, 
+  uint8_t gyroRate, uint8_t gyroRange,
+  uint8_t accelRate, uint8_t accelRange,
+  uint8_t devint
+) {
   Obmi160=(struct bmi160Dev *)malloc(sizeof(struct bmi160Dev));
-  //Obmi160->id = BMI160_I2C_ADDR;
-  //Obmi160->interface = BMI160_I2C_INTF; 
   Oaccel= (struct bmi160SensorData*)malloc(sizeof(struct bmi160SensorData));
   Ogyro = (struct bmi160SensorData*)malloc(sizeof(struct bmi160SensorData));
+
+  if (devint == BMI160_I2C_INTF) {DFRobot_BMI160::I2cInit(addr);} 
+  else {DFRobot_BMI160::SPIInit(addr);}
+
+  softReset();
+  delay(12);
+
+  Obmi160->gyroCfg.odr = gyroRate;
+  delay(1);
+  Obmi160->accelCfg.odr = accelRate;
+  delay(1);
+  Obmi160->gyroCfg.range = gyroRange;
+  delay(1);
+  Obmi160->accelCfg.range = accelRange;
+  delay(1);
+
+  setRegister(BMI160_COMMAND_REG_ADDR, BMI160_ACCEL_NORMAL_MODE);
+  delay(BMI160_ACCEL_POWERUP_DELAY_MS);
+
+  setRegister(BMI160_COMMAND_REG_ADDR, BMI160_GYRO_NORMAL_MODE);
+  delay(BMI160_GYRO_POWERUP_DELAY_MS);
+
 }
   
 int8_t DFRobot_BMI160::I2cInit(int8_t i2c_addr)
 {
+  Wire.begin();
   Obmi160->id = i2c_addr;
   Obmi160->interface = BMI160_I2C_INTF;
   return DFRobot_BMI160::COMInit(Obmi160);
@@ -877,8 +905,8 @@ int8_t DFRobot_BMI160::SPIGetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8
   return BMI160_OK;
 }
 
-void DFRobot_BMI160::setRegister(uint8_t reg, uint8_t *data) {
-  DFRobot_BMI160::setRegs(reg, data, 1, Obmi160);
+void DFRobot_BMI160::setRegister(uint8_t reg, uint8_t data) {
+  DFRobot_BMI160::setRegs(reg, &data, 1, Obmi160);
 }
 
 int8_t DFRobot_BMI160::setRegs(uint8_t reg_addr, uint8_t *data, uint16_t len, struct bmi160Dev *dev)
