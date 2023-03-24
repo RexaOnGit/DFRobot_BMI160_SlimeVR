@@ -970,13 +970,9 @@ public:
   */
   uint8_t getRegister(uint8_t reg);
 
-  /** Get certain bits from a specified register
-   * @param reg address to read from
-   * @param bitStart bit in address to start on
-   * @param length number of bits to read
-   * @return byte with the requested bits
-   */
-  uint8_t getBits(uint8_t reg, uint8_t bitStart, uint8_t length);
+  uint8_t getBits(uint8_t reg, uint8_t bitStart, uint8_t length, uint8_t *data);
+
+  bool setBits(uint8_t reg, uint8_t bitStart, uint8_t length, uint8_t data);
 
   /** Write a BMI160 register directly.
   * @param reg register address

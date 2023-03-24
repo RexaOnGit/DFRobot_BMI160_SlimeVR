@@ -589,7 +589,8 @@ int8_t DFRobot_BMI160::getRotation( int16_t* data, uint32_t* timestamp)
 }
 
 bool DFRobot_BMI160::getGyroDrdy() {
-  uint8_t buffer = getBits(BMI160_STATUS_ADDR, 6, 1);
+  uint8_t buffer;
+  getBits(BMI160_STATUS_ADDR, 6, 1, &buffer);
   return buffer;
 }
 
@@ -900,12 +901,40 @@ uint8_t DFRobot_BMI160::getRegister(uint8_t reg) {
   return data[0];
 }
 
-uint8_t DFRobot_BMI160::getBits(uint8_t reg, uint8_t bitStart, uint8_t length) {
-  uint8_t byte = getRegister(reg);
-  uint8_t mask = ((1 << length) - 1) << bitStart;
-  byte &= mask;
-  byte >>= bitStart;
-  return byte;
+/** Get certain bits from a specified register
+ * @param reg address to read from
+ * @param bitStart bit in address to start on
+ * @param length number of bits to read
+ * @return byte with the requested bits
+ */
+uint8_t DFRobot_BMI160::getBits(uint8_t reg, uint8_t bitStart, uint8_t length, uint8_t *data) {
+  uint8_t count, byte;
+  if ((count = getRegs(reg, &byte, 1, Obmi160)) != 0) {
+    uint8_t mask = ((1 << length) - 1) << bitStart;
+    byte &= mask;
+    byte >>= bitStart;
+    *data = byte;
+  }
+  return count;
+}
+
+/** Set certain bits in a specified register
+ * @param reg address to be set
+ * @param bitStart bit in address to start on
+ * @param length number of bits to set
+ * @param data bits to set
+ * @return status
+ */
+bool DFRobot_BMI160::setBits(uint8_t reg, uint8_t bitStart, uint8_t length, uint8_t data) {
+  uint8_t byte;
+  if (getRegs(reg, &byte, 1, Obmi160) != 0) {
+    uint8_t mask = ((1 << length) - 1) << bitStart;
+    data <<= bitStart;
+    data &= mask;
+    byte &= ~(mask);
+    byte |= data;
+    return setRegs(reg, &byte, 1, Obmi160);
+  } else return false;
 }
 
 int8_t DFRobot_BMI160::getRegs(uint8_t reg_addr, uint8_t *data, uint16_t len, struct bmi160Dev *dev)
