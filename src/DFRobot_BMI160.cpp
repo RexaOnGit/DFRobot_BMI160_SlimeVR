@@ -979,10 +979,10 @@ bool DFRobot_BMI160::getFIFOCount(uint16_t* outCount) {
   return ok;
 }
 
-void DFRobot_BMI160::getFIFOBytes(uint8_t *data, uint16_t length) {
-  if (length) {
-    getRegs(BMI160_FIFO_DATA_ADDR, data, length, Obmi160);
-  }
+bool DFRobot_BMI160::getFIFOBytes(uint8_t *data, uint16_t length) {
+  if (!length) return true;
+  bool ok = getRegs(BMI160_FIFO_DATA_ADDR, data, length, Obmi160);
+  return ok;
 }
 
 bool DFRobot_BMI160::getErrReg(uint8_t* out) {

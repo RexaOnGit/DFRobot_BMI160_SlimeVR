@@ -1106,7 +1106,7 @@ public:
 
   bool getFIFOCount(uint16_t* outCount);
 
-  void getFIFOBytes(uint8_t *data, uint16_t length);
+  bool getFIFOBytes(uint8_t *data, uint16_t length);
 
   uint8_t onlyAccel=1;
   uint8_t onlyGyro=2;
