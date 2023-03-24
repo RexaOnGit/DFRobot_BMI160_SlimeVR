@@ -181,6 +181,7 @@
 #define BMI160_AUX_DATA_ADDR    UINT8_C(0x04)
 #define BMI160_GYRO_DATA_ADDR   UINT8_C(0x0C)
 #define BMI160_ACCEL_DATA_ADDR    UINT8_C(0x12)
+#define BMI160_SENSORTIME         UINT8_C(0x18)
 #define BMI160_STATUS_ADDR    UINT8_C(0x1B)
 #define BMI160_INT_STATUS_ADDR    UINT8_C(0x1C)
 #define BMI160_TEMPERATURE_0_ADDR UINT8_C(0x20)
@@ -1075,6 +1076,8 @@ public:
   int8_t setStepPowerMode(uint8_t model);
 
   bool getTemperature(int16_t* out);
+
+  bool getSensorTime(uint32_t *v_sensor_time_u32);
 
   uint8_t onlyAccel=1;
   uint8_t onlyGyro=2;
