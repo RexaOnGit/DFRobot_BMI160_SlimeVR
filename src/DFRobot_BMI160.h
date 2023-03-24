@@ -9,6 +9,9 @@
  * @url https://github.com/DFRobot/DFRobot_BMI160
  */
 
+#ifndef _DFROBOT_BMI160_H_
+#define _DFROBOT_BMI160_H_
+
 #include <Arduino.h>
 #include <Wire.h>
 #include <SPI.h>
@@ -1138,3 +1141,5 @@ public:
     struct bmi160SensorData* Oaccel;
     struct bmi160SensorData* Ogyro; 
 };
+
+#endif /* _DFROBOT_BMI160_H_*/
