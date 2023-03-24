@@ -967,6 +967,31 @@ void DFRobot_BMI160::setRegister(uint8_t reg, uint8_t data) {
   DFRobot_BMI160::setRegs(reg, &data, 1, Obmi160);
 }
 
+/** Left shift mag address.
+ * Workaround because 0 bit of address is reserved.
+ * @param addr address to shift
+ */
+void DFRobot_BMI160::setMagDeviceAddress(uint8_t addr) {
+  setRegister(BMI160_AUX_IF_0_ADDR, addr << 1);
+}
+
+/** Set value of the magnetometer (aux) register.
+ * @param addr address to set
+ * @param value value to set in the address
+ * @returns if the set was successful
+*/
+bool DFRobot_BMI160::setMagRegister(uint8_t addr, uint8_t value) {
+  setRegister(BMI160_AUX_IF_4_ADDR, value);
+  setRegister(BMI160_AUX_IF_3_ADDR, addr);
+  delay(3);
+  uint8_t buffer = getRegister(BMI160_ERROR_REG_ADDR);
+  if (buffer & BMI160_ERR_MASK_COM_FAIL) {
+    printf("BMI160: mag register proxy write error\n");
+    return false;
+  }
+  return true;
+}
+
 int8_t DFRobot_BMI160::setRegs(uint8_t reg_addr, uint8_t *data, uint16_t len, struct bmi160Dev *dev)
 {
   int8_t rslt = BMI160_OK;

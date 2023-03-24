@@ -26,6 +26,7 @@
 #define BMI160_GYRO_BW_MASK                     UINT8_C(0x30)
 #define BMI160_GYRO_ODR_MASK                    UINT8_C(0x0F)
 #define BMI160_GYRO_RANGE_MSK                   UINT8_C(0x07)
+#define BMI160_ERR_MASK_COM_FAIL                UINT8_C(0x20)
 
 /** Mask definitions for INT_EN registers */
 #define BMI160_ANY_MOTION_X_INT_EN_MASK         UINT8_C(0x01)
@@ -1094,6 +1095,10 @@ public:
   uint8_t getDeviceID();
 
   bool testConnection();
+
+  void setMagDeviceAddress(uint8_t addr);
+
+  bool setMagRegister(uint8_t addr, uint8_t value);
 
   uint8_t onlyAccel=1;
   uint8_t onlyGyro=2;
