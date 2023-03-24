@@ -887,6 +887,14 @@ uint8_t DFRobot_BMI160::getRegister(uint8_t reg) {
   return data[0];
 }
 
+uint8_t DFRobot_BMI160::getBits(uint8_t reg, uint8_t bitStart, uint8_t length) {
+  uint8_t byte = getRegister(reg);
+  uint8_t mask = ((1 << length) - 1) << bitStart;
+  byte &= mask;
+  byte >>= bitStart;
+  return byte;
+}
+
 int8_t DFRobot_BMI160::getRegs(uint8_t reg_addr, uint8_t *data, uint16_t len, struct bmi160Dev *dev)
 {
   
