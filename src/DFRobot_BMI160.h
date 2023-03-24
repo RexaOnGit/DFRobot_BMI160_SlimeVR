@@ -1102,6 +1102,10 @@ public:
 
   bool setMagRegister(uint8_t addr, uint8_t value);
 
+  void resetFIFO();
+
+  bool getFIFOCount(uint16_t* outCount);
+
   uint8_t onlyAccel=1;
   uint8_t onlyGyro=2;
   uint8_t bothAccelGyro=3;

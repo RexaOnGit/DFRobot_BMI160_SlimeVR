@@ -967,11 +967,23 @@ void DFRobot_BMI160::setRegister(uint8_t reg, uint8_t data) {
   DFRobot_BMI160::setRegs(reg, &data, 1, Obmi160);
 }
 
-bool DFRobot_BMI160::getErrReg(uint8_t* out) {
-  uint8_t buffer = getRegister(BMI160_ERROR_REG_ADDR);
-  bool ok = (buffer >= 0);
+void DFRobot_BMI160::resetFIFO() {
+  setRegister(BMI160_COMMAND_REG_ADDR, BMI160_FIFO_FLUSH_VALUE);
+}
+
+bool DFRobot_BMI160::getFIFOCount(uint16_t* outCount) {
+  uint8_t *buffer;
+  bool ok = getRegs(BMI160_FIFO_LENGTH_ADDR, buffer, 2, Obmi160);
   if (!ok) return false;
-  *out = buffer;
+  *outCount = (((int16_t)buffer[1]) << 8) | buffer[0];
+  return ok;
+}
+
+bool DFRobot_BMI160::getErrReg(uint8_t* out) {
+  uint8_t *buffer;
+  bool ok = getRegs(BMI160_ERROR_REG_ADDR, buffer, 1, Obmi160);
+  if (!ok) return false;
+  *out = buffer[0];
   return true;
 }
 
