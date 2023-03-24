@@ -1081,7 +1081,7 @@ public:
 
   uint8_t getDeviceID();
 
-  bool testconnection();
+  bool testConnection();
 
   uint8_t onlyAccel=1;
   uint8_t onlyGyro=2;

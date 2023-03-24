@@ -621,7 +621,7 @@ uint8_t DFRobot_BMI160::getDeviceID() {
  * @brief Make sure the device is connected and responds as expected.
  * @return true if connection is valid, false otherwise
  */
-bool DFRobot_BMI160::testconnection() {
+bool DFRobot_BMI160::testConnection() {
   return (BMI160_CHIP_ID == getDeviceID());
 }
 
