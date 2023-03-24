@@ -608,6 +608,23 @@ bool DFRobot_BMI160::getSensorTime(uint32_t *v_sensor_time_u32) {
   return true;
 }
 
+/** Get device ID.
+ * @brief This register is used to verify the identity of the device (0b11010001, 0xD1).
+ * @return device ID (should be 0xD1)
+ * @see BMI160_CHIP_ID
+ */
+uint8_t DFRobot_BMI160::getDeviceID() {
+  return getRegister(BMI160_CHIP_ID_ADDR);
+}
+
+/** Verify device connection.
+ * @brief Make sure the device is connected and responds as expected.
+ * @return true if connection is valid, false otherwise
+ */
+bool DFRobot_BMI160::testconnection() {
+  return (BMI160_CHIP_ID == getDeviceID());
+}
+
 int8_t DFRobot_BMI160::getAccelGyroData( int16_t* data)
 {
   int8_t rslt = BMI160_OK;

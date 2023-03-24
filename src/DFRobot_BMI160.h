@@ -1079,6 +1079,10 @@ public:
 
   bool getSensorTime(uint32_t *v_sensor_time_u32);
 
+  uint8_t getDeviceID();
+
+  bool testconnection();
+
   uint8_t onlyAccel=1;
   uint8_t onlyGyro=2;
   uint8_t bothAccelGyro=3;
