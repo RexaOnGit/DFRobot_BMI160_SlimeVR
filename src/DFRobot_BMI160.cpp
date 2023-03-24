@@ -588,6 +588,19 @@ int8_t DFRobot_BMI160::getRotation( int16_t* data, uint32_t* timestamp)
   return rslt;
 }
 
+bool DFRobot_BMI160::getGyroDrdy() {
+  uint8_t buffer = getBits(BMI160_STATUS_ADDR, 6, 1);
+  return buffer;
+}
+
+void DFRobot_BMI160::waitForGyroDrdy() {
+  bool isDrdy = false;
+  do {
+    bool isDrdy = getGyroDrdy();
+    if (!isDrdy) delayMicroseconds(150);
+  } while (!isDrdy);
+}
+
 bool DFRobot_BMI160::getTemperature(int16_t* out) {
   uint8_t *buffer;
   int rslt = getRegs(BMI160_TEMPERATURE_0_ADDR, buffer, 2, Obmi160);
