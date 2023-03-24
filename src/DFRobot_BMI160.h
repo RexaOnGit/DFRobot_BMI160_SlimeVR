@@ -1096,6 +1096,8 @@ public:
 
   bool testConnection();
 
+  bool getErrReg(uint8_t* out);
+
   void setMagDeviceAddress(uint8_t addr);
 
   bool setMagRegister(uint8_t addr, uint8_t value);

@@ -967,6 +967,14 @@ void DFRobot_BMI160::setRegister(uint8_t reg, uint8_t data) {
   DFRobot_BMI160::setRegs(reg, &data, 1, Obmi160);
 }
 
+bool DFRobot_BMI160::getErrReg(uint8_t* out) {
+  uint8_t buffer = getRegister(BMI160_ERROR_REG_ADDR);
+  bool ok = (buffer >= 0);
+  if (!ok) return false;
+  *out = buffer;
+  return true;
+}
+
 /** Left shift mag address.
  * Workaround because 0 bit of address is reserved.
  * @param addr address to shift
