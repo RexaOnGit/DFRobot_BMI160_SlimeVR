@@ -538,7 +538,7 @@ int8_t DFRobot_BMI160::getSensorData(uint8_t type, int16_t* data)
   return rslt;
 }
 
-int8_t DFRobot_BMI160::getAccelData( int16_t* data)
+int8_t DFRobot_BMI160::getAcceleration( int16_t* data)
 {
   int8_t rslt=BMI160_OK;
   rslt = getSensorData(BMI160_ACCEL_SEL, Oaccel, NULL, Obmi160);
@@ -550,7 +550,7 @@ int8_t DFRobot_BMI160::getAccelData( int16_t* data)
   return rslt;
 }
 
-int8_t DFRobot_BMI160::getAccelData( int16_t* data, uint32_t* timestamp)
+int8_t DFRobot_BMI160::getAcceleration( int16_t* data, uint32_t* timestamp)
 {
   int8_t rslt=BMI160_OK;
   rslt = getSensorData((BMI160_ACCEL_SEL | BMI160_TIME_SEL), Oaccel, NULL, Obmi160);
@@ -563,9 +563,9 @@ int8_t DFRobot_BMI160::getAccelData( int16_t* data, uint32_t* timestamp)
   return rslt;
 }
 
-int8_t DFRobot_BMI160::getGyroData( int16_t* data)
+int8_t DFRobot_BMI160::getRotation( int16_t* data)
 {
-  int rslt = BMI160_OK;
+  int8_t rslt = BMI160_OK;
   rslt = getSensorData(BMI160_GYRO_SEL, NULL, Ogyro, Obmi160); 
   if(rslt == BMI160_OK){
     data[0]=Ogyro->x;
@@ -575,9 +575,9 @@ int8_t DFRobot_BMI160::getGyroData( int16_t* data)
   return rslt;
 }
 
-int8_t DFRobot_BMI160::getGyroData( int16_t* data, uint32_t* timestamp)
+int8_t DFRobot_BMI160::getRotation( int16_t* data, uint32_t* timestamp)
 {
-  int rslt = BMI160_OK;
+  int8_t rslt = BMI160_OK;
   rslt = getSensorData((BMI160_GYRO_SEL | BMI160_TIME_SEL), NULL, Ogyro, Obmi160); 
   if(rslt == BMI160_OK){
     data[0]=Ogyro->x;

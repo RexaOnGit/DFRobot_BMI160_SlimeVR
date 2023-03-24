@@ -985,38 +985,38 @@ public:
   int8_t getSensorData(uint8_t type,int16_t* data);
   
   /**
-   * @fn getAccelData
+   * @fn getAcceleration
    * @brief get the accel data 
    * @param data pointer to store the accel data
    * @return BMI160_OK(0) means succse
    */
-  int8_t getAccelData(int16_t* data);
+  int8_t getAcceleration(int16_t* data);
   
   /**
-   * @fn getAccelData
+   * @fn getAcceleration
    * @brief get the accel data 
    * @param data pointer to store the accel data
    * @param timestamp pointer to store the timestamp for accel
    * @return BMI160_OK(0) means succse
    */
-  int8_t getAccelData(int16_t* data, uint32_t* timestamp);
+  int8_t getAcceleration(int16_t* data, uint32_t* timestamp);
   
   /**
-   * @fn getGyroData
+   * @fn getRotation
    * @brief get the gyro data 
    * @param data pointer to store the gyro data
    * @return BMI160_OK(0) means succse
    */
-  int8_t getGyroData(int16_t* data);
+  int8_t getRotation(int16_t* data);
   
   /**
-   * @fn getGyroData
+   * @fn getRotation
    * @brief get the gyro data 
    * @param data pointer to store the gyro data
    * @param timestamp pointer to store the timestamp for gryo
    * @return BMI160_OK(0) means succse
    */
-  int8_t getGyroData(int16_t* data, uint32_t* timestamp);
+  int8_t getRotation(int16_t* data, uint32_t* timestamp);
   
   /**
    * @fn getAccelGyroData
