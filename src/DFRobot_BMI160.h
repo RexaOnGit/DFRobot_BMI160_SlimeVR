@@ -16,7 +16,7 @@
 #include <Wire.h>
 #include <SPI.h>
 
-#define LITTLE_ENDIAN 1
+#define LITTLE_ENDIAND 1
 
 /** Mask definitions */
 #define BMI160_ACCEL_BW_MASK                    UINT8_C(0x70)
@@ -722,7 +722,7 @@ enum bmi160IntTypes {
 };
 
 struct bmi160IntPinSettg {
-#if LITTLE_ENDIAN == 1
+#if LITTLE_ENDIAND == 1
   
   uint16_t outputEn :1;   /**< To enable either INT1 or INT2 pin as output. 0- output disabled ,1- output enabled */
   uint16_t outputMode :1; /**< 0 - push-pull 1- open drain,only valid if outputEn is set 1 */
@@ -730,7 +730,7 @@ struct bmi160IntPinSettg {
   uint16_t edgeCtrl :1;   /**< 0 - level trigger , 1 - edge trigger  */
   uint16_t inputEn :1;    /**< To enable either INT1 or INT2 pin as input. 0 - input disabled ,1 - input enabled */
   uint16_t latchDur :4;   /**< latch duration*/
-#elif BIG_ENDIAN == 1
+#elif BIG_ENDIAND == 1
   uint16_t latchDur : 4;  /**< latch duration*/
   uint16_t inputEn : 1;   /**< Latched,non-latched or temporary interrupt modes */
   uint16_t edgeCtrl : 1;  /**< 1 - edge trigger, 0 - level trigger */
@@ -741,7 +741,7 @@ struct bmi160IntPinSettg {
 };
 
 struct bmi160AccTapIntCfg {
-#if LITTLE_ENDIAN == 1
+#if LITTLE_ENDIAND == 1
   uint16_t tapThr :5;     /**< tap threshold */
   uint16_t tapShock :1;   /**< tap shock */
   uint16_t tapQuiet :1;   /**< tap quiet */
@@ -759,7 +759,7 @@ struct bmi160AccTapIntCfg {
 };
 
 struct bmi160AccAnyMotIntCfg {
-#if LITTLE_ENDIAN == 1
+#if LITTLE_ENDIAND == 1
   uint8_t anymotionEn :1;     /**< 1 any-motion enable, 0 - any-motion disable */
   uint8_t anymotionX :1;      /**< slope interrupt x, 1 - enable, 0 - disable */
   uint8_t anymotionY :1;      /**< slope interrupt y, 1 - enable, 0 - disable */
@@ -767,7 +767,7 @@ struct bmi160AccAnyMotIntCfg {
   uint8_t anymotionDur :2;    /**< slope duration */
   uint8_t anymotionDataSrc :1;/**< data source 0- filter & 1 pre-filter*/
   uint8_t anymotionThr;       /**< slope threshold */
-#elif BIG_ENDIAN == 1
+#elif BIG_ENDIAND == 1
   
   uint8_t anymotionThr;       /**< slope threshold */
   uint8_t anymotionDataSrc :1;/**< data source 0- filter & 1 pre-filter*/
@@ -780,13 +780,13 @@ struct bmi160AccAnyMotIntCfg {
 };
 
 struct bmi160AccSigMotIntCfg {
-#if LITTLE_ENDIAN == 1
+#if LITTLE_ENDIAND == 1
   uint8_t sigMotSkip :2;  /**< skip time of sig-motion interrupt */
   uint8_t sigMotProof :2; /**< proof time of sig-motion interrupt */
   uint8_t sigDataSrc :1;  /**< data source 0- filter & 1 pre-filter*/
   uint8_t sigEn :1;       /**< 1 - enable sig, 0 - disable sig & enable anymotion */
   uint8_t sigMotThres;    /**< sig-motion threshold */
-#elif BIG_ENDIAN == 1
+#elif BIG_ENDIAND == 1
   
   uint8_t sigMotThres;    /**< sig-motion threshold */
   uint8_t sigEn :1;       /**< 1 - enable sig, 0 - disable sig & enable anymotion */
@@ -797,13 +797,13 @@ struct bmi160AccSigMotIntCfg {
 };
 
 struct bmi160AccStepDetectIntCfg {
-#if LITTLE_ENDIAN == 1
+#if LITTLE_ENDIAND == 1
   uint16_t stepDetectorEn :1;  /**< 1- step detector enable, 0- step detector disable */
   uint16_t minThreshold :2;    /**< minimum threshold */
   uint16_t steptimeMin :3;     /**< minimal detectable step time */
   uint16_t stepDetectorMode :2;/**< enable step counter mode setting */
   uint16_t stepMinBuf :3;      /**< minimum step buffer size*/
-#elif BIG_ENDIAN == 1
+#elif BIG_ENDIAND == 1
   uint16_t stepMinBuf :3;       /**< minimum step buffer size*/
   uint16_t stepDetectorMode : 2;/**< enable step counter mode setting */
   uint16_t steptimeMin : 3;     /**< minimal detectable step time */
@@ -813,7 +813,7 @@ struct bmi160AccStepDetectIntCfg {
 };
 
 struct bmi160AccNoMotionIntCfg {
-#if LITTLE_ENDIAN == 1
+#if LITTLE_ENDIAND == 1
   uint16_t noMotionX :1;  /**< no motion interrupt x */
   uint16_t noMotionY :1;  /**< no motion interrupt y */
   uint16_t noMotionZ :1;  /**< no motion interrupt z */
@@ -821,7 +821,7 @@ struct bmi160AccNoMotionIntCfg {
   uint16_t noMotionSel :1;/**< no motion sel , 1 - enable no-motion ,0- enable slow-motion */
   uint16_t noMotionSrc :1;/**< data source 0- filter & 1 pre-filter*/
   uint8_t noMotionThres;  /**< no motion threshold */
-#elif BIG_ENDIAN == 1
+#elif BIG_ENDIAND == 1
   uint8_t noMotionThres;   /**< no motion threshold */
   uint16_t noMotionSrc :1; /**< data source 0- filter & 1 pre-filter*/
   uint16_t noMotionSel : 1;/**< no motion sel , 1 - enable no-motion ,0- enable slow-motion */
@@ -833,7 +833,7 @@ struct bmi160AccNoMotionIntCfg {
 };
 
 struct bmi160AccOrientIntCfg {
-#if LITTLE_ENDIAN == 1
+#if LITTLE_ENDIAND == 1
   uint16_t orientMode :2;    /**< thresholds for switching between the different orientations */
   uint16_t orientBlocking :2;/**< blocking_mode */
   uint16_t orientHyst :4;    /**< Orientation interrupt hysteresis */
@@ -841,7 +841,7 @@ struct bmi160AccOrientIntCfg {
   uint16_t orientUdEn :1;    /**< Enable/disable Orientation interrupt */
   uint16_t axesEx :1;        /**< exchange x- and z-axis in algorithm ,0 - z, 1 - x */
   uint8_t orientEn :1;       /**< 1 - orient enable, 0 - orient disable */
-#elif BIG_ENDIAN == 1
+#elif BIG_ENDIAND == 1
   uint8_t orientEn :1;        /**< 1 - orient enable, 0 - orient disable */
   uint16_t axesEx : 1;        /**< exchange x- and z-axis in algorithm ,0 - z, 1 - x */
   uint16_t orientUdEn : 1;    /**< Enable/disable Orientation interrupt */
@@ -853,13 +853,13 @@ struct bmi160AccOrientIntCfg {
 };
 
 struct bmi160AccFlatDetectIntCfg {
-#if LITTLE_ENDIAN == 1
+#if LITTLE_ENDIAND == 1
   
   uint16_t flatTheta :6;    /**< flat threshold */
   uint16_t flatHy :3;       /**< flat interrupt hysteresis */
   uint16_t flatHoldTime :2; /**< delay time for which the flat value must remain stable for the flat interrupt to be generated */
   uint16_t flatEn :1;       /**< 1 - flat enable, 0 - flat disable */
-#elif BIG_ENDIAN == 1
+#elif BIG_ENDIAND == 1
   uint16_t flatEn :1;         /**< 1 - flat enable, 0 - flat disable */
   uint16_t flatHoldTime : 2;  /**< delay time for which the flat value must remain stable for the flat interrupt to be generated */
   uint16_t flatHy : 3;        /**< flat interrupt hysteresis */
@@ -868,14 +868,14 @@ struct bmi160AccFlatDetectIntCfg {
 };
 
 struct bmi160AccLowGIntCfg {
-#if LITTLE_ENDIAN == 1
+#if LITTLE_ENDIAND == 1
   uint8_t lowDur;       /**< low-g interrupt trigger delay */
   uint8_t lowThres;     /**< low-g interrupt trigger threshold */
   uint8_t lowHyst :2;   /**< hysteresis of low-g interrupt */
   uint8_t lowMode :1;   /**< 0 - single-axis mode ,1 - axis-summing mode */
   uint8_t lowDataSrc :1;/**< data source 0- filter & 1 pre-filter */
   uint8_t lowEn :1;     /**< 1 - enable low-g, 0 - disable low-g */
-#elif BIG_ENDIAN == 1
+#elif BIG_ENDIAND == 1
   uint8_t lowEn :1;     /**< 1 - enable low-g, 0 - disable low-g */
   uint8_t lowDataSrc :1;/**< data source 0- filter & 1 pre-filter */
   uint8_t lowMode : 1;  /**< 0 - single-axis mode ,1 - axis-summing mode */
@@ -886,7 +886,7 @@ struct bmi160AccLowGIntCfg {
 };
 
 struct bmi160AccHighGIntCfg {
-#if LITTLE_ENDIAN == 1
+#if LITTLE_ENDIAND == 1
   
   uint8_t high_g_x :1;    /**< High-g interrupt x, 1 - enable, 0 - disable */
   uint8_t high_g_y :1;    /**< High-g interrupt y, 1 - enable, 0 - disable */
@@ -895,7 +895,7 @@ struct bmi160AccHighGIntCfg {
   uint8_t highDataSrc :1; /**< data source 0- filter & 1 pre-filter */
   uint8_t highThres;      /**< High-g threshold */
   uint8_t highDur;        /**< High-g duration */
-#elif BIG_ENDIAN == 1
+#elif BIG_ENDIAND == 1
   uint8_t highDur;       /**< High-g duration */
   uint8_t highThres;     /**< High-g threshold */
   uint8_t highDataSrc :1;/**< data source 0- filter & 1 pre-filter */
@@ -1157,11 +1157,11 @@ public:
     int8_t getRegs(uint8_t reg_addr, uint8_t * data, uint16_t len, struct bmi160Dev *dev);
     int8_t setRegs(uint8_t reg_addr, uint8_t * data, uint16_t len, struct bmi160Dev *dev);
 
-    int8_t I2cGetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint16_t len);
-    int8_t I2cSetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint16_t len);
+    int8_t I2cGetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint8_t len);
+    int8_t I2cSetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint8_t len);
 
-    int8_t SPIGetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint16_t len);
-    int8_t SPISetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint16_t len);
+    int8_t SPIGetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint8_t len);
+    int8_t SPISetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint8_t len);
 
     
     int8_t setInt(struct bmi160Dev *dev, int intNum);

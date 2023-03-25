@@ -605,7 +605,7 @@ void DFRobot_BMI160::waitForGyroDrdy() {
 }
 
 bool DFRobot_BMI160::getTemperature(int16_t* out) {
-  uint8_t *buffer;
+  uint8_t buffer[2];
   int rslt = getRegs(BMI160_TEMPERATURE_0_ADDR, buffer, 2, Obmi160);
   if (rslt != 0) return false;      //escape if read error
   *out = (((int16_t)buffer[1]) << 8) | buffer[0];
@@ -613,7 +613,7 @@ bool DFRobot_BMI160::getTemperature(int16_t* out) {
 }
 
 bool DFRobot_BMI160::getSensorTime(uint32_t *v_sensor_time_u32) {
-  uint8_t *buffer;
+  uint8_t buffer[3];
   int rslt = getRegs(BMI160_SENSORTIME, buffer, 3, Obmi160);
   if (rslt !=0) return false;       //escape if read error
   *v_sensor_time_u32 = (uint32_t)(
@@ -941,7 +941,6 @@ bool DFRobot_BMI160::setBits(uint8_t reg, uint8_t bitStart, uint8_t length, uint
 
 int8_t DFRobot_BMI160::getRegs(uint8_t reg_addr, uint8_t *data, uint16_t len, struct bmi160Dev *dev)
 {
-  
   int8_t rslt = BMI160_OK;
   //Null-pointer check 
   if (dev == NULL) {
@@ -963,7 +962,7 @@ int8_t DFRobot_BMI160::getRegs(uint8_t reg_addr, uint8_t *data, uint16_t len, st
   return rslt;  
 }
 
-int8_t DFRobot_BMI160::I2cGetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint16_t len)
+int8_t DFRobot_BMI160::I2cGetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint8_t len)
 {
   Wire.beginTransmission(dev->id);
   Wire.write(reg_addr);
@@ -978,14 +977,15 @@ int8_t DFRobot_BMI160::I2cGetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8
   return BMI160_OK;
 }
 
-int8_t DFRobot_BMI160::SPIGetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint16_t len)
+int8_t DFRobot_BMI160::SPIGetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint8_t len)
 {
   int8_t select_pin = dev->id;
   SPI.beginTransaction(dev->spiSettings);
   digitalWrite(select_pin,LOW);
 
-  for(int i = 0; i < len; i++){
-    data[i] = SPI.transfer((reg_addr | 0x80) + i);
+  for(uint8_t i = 0; i < len; i++){
+    data[i] = SPI.transfer((reg_addr | 0x80));
+    reg_addr++;
     delay(1);
   }
 
@@ -1003,7 +1003,7 @@ void DFRobot_BMI160::resetFIFO() {
 }
 
 bool DFRobot_BMI160::getFIFOCount(uint16_t* outCount) {
-  uint8_t *buffer;
+  uint8_t buffer[2];
   bool ok = getRegs(BMI160_FIFO_LENGTH_ADDR, buffer, 2, Obmi160);
   if (!ok) return false;
   *outCount = (((int16_t)buffer[1]) << 8) | buffer[0];
@@ -1037,7 +1037,7 @@ void DFRobot_BMI160::setAccelFIFOEnabled(bool enabled) {
 }
 
 bool DFRobot_BMI160::getErrReg(uint8_t* out) {
-  uint8_t *buffer;
+  uint8_t buffer[1];
   bool ok = getRegs(BMI160_ERROR_REG_ADDR, buffer, 1, Obmi160);
   if (!ok) return false;
   *out = buffer[0];
@@ -1072,7 +1072,6 @@ bool DFRobot_BMI160::setMagRegister(uint8_t addr, uint8_t value) {
 int8_t DFRobot_BMI160::setRegs(uint8_t reg_addr, uint8_t *data, uint16_t len, struct bmi160Dev *dev)
 {
   int8_t rslt = BMI160_OK;
-  uint8_t count = 0;
   //Null-pointer check
   if (dev == NULL) {
     rslt = BMI160_E_NULL_PTR;
@@ -1093,7 +1092,7 @@ int8_t DFRobot_BMI160::setRegs(uint8_t reg_addr, uint8_t *data, uint16_t len, st
   return rslt;
 }
 
-int8_t DFRobot_BMI160::I2cSetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint16_t len)
+int8_t DFRobot_BMI160::I2cSetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint8_t len)
 {
   if ((dev->prevAccelCfg.power == BMI160_ACCEL_NORMAL_MODE)||(dev->prevGyroCfg.power == BMI160_GYRO_NORMAL_MODE)){
     Wire.beginTransmission(dev->id);
@@ -1116,7 +1115,7 @@ int8_t DFRobot_BMI160::I2cSetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8
   return BMI160_OK;
 }
 
-int8_t DFRobot_BMI160::SPISetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint16_t len)
+int8_t DFRobot_BMI160::SPISetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint8_t len)
 {
   int select_pin = dev->id;
   if ((dev->prevAccelCfg.power == BMI160_ACCEL_NORMAL_MODE)||(dev->prevGyroCfg.power == BMI160_GYRO_NORMAL_MODE)){
