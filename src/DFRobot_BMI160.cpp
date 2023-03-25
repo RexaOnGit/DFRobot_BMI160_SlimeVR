@@ -74,6 +74,8 @@ int8_t DFRobot_BMI160::I2cInit(int8_t i2c_addr)
 
 int8_t DFRobot_BMI160::SPIInit(int8_t chip_select)
 {
+  pinMode(chip_select, OUTPUT);
+  SPI.begin();
   Obmi160->id = chip_select;
   Obmi160->interface = BMI160_SPI_INTF;
   return DFRobot_BMI160::COMInit(Obmi160);
