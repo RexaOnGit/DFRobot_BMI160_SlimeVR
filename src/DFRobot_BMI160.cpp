@@ -1,13 +1,13 @@
-/*!
- * @file DFRobot_BMI160.cpp
- * @brief Define the basic structure of class DFRobot_BMI160 
- * @copyright	Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
- * @license The MIT License (MIT)
- * @author  DFRobot_haoJ(hao.jiang@dfrobot.com)
- * @version V1.0
- * @date 2017-12-01
- * @url https://github.com/DFRobot/DFRobot_BMI160
- */
+/*
+  @file DFRobot_BMI160.cpp
+  @brief Define the basic structure of class DFRobot_BMI160 
+  @copyright	Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
+  @license The MIT License (MIT)
+  @author  DFRobot_haoJ(hao.jiang@dfrobot.com)
+  @version V1.0
+  @date 2017-12-01
+  @url https://github.com/DFRobot/DFRobot_BMI160
+*/
 
 #include "DFRobot_BMI160.h"
 
@@ -39,7 +39,7 @@ DFRobot_BMI160::DFRobot_BMI160()
   
 int8_t DFRobot_BMI160::I2cInit(int8_t i2c_addr)
 {
-  Obmi160->id = i2c_addr;
+  Obmi160->comAddress = i2c_addr;
   Obmi160->interface = BMI160_I2C_INTF;
   return DFRobot_BMI160::I2cInit(Obmi160);
 }
@@ -849,11 +849,11 @@ int8_t DFRobot_BMI160::getRegs(uint8_t reg_addr, uint8_t *data, uint8_t len, str
 
 int8_t DFRobot_BMI160::I2cGetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint8_t len)
 {
-  Wire.beginTransmission(dev->id);
+  Wire.beginTransmission(dev->comAddress);
   Wire.write(reg_addr);
   Wire.endTransmission(true);
   delay(10);
-  Wire.requestFrom(dev->id,len);
+  Wire.requestFrom(dev->comAddress,len);
 
   for(int i = 0; i < len; i++){
     data[i]=Wire.read();
@@ -888,7 +888,7 @@ int8_t DFRobot_BMI160::setRegs(uint8_t reg_addr, uint8_t *data, uint8_t len, str
 int8_t DFRobot_BMI160::I2cSetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint8_t len)
 {
   if ((dev->prevAccelCfg.power == BMI160_ACCEL_NORMAL_MODE)||(dev->prevGyroCfg.power == BMI160_GYRO_NORMAL_MODE)){
-    Wire.beginTransmission(dev->id);
+    Wire.beginTransmission(dev->comAddress);
     Wire.write(reg_addr);
     for(int i = 0; i < len; i++){
       Wire.write(data[i]);
@@ -897,7 +897,7 @@ int8_t DFRobot_BMI160::I2cSetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8
     Wire.endTransmission(true);
   }else{
     for(int i = 0; i < len; i++){
-      Wire.beginTransmission(dev->id);
+      Wire.beginTransmission(dev->comAddress);
       Wire.write(reg_addr);
       Wire.write(data[i]);
       
