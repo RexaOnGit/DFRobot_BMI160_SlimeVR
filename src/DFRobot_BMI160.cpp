@@ -1,4 +1,4 @@
-/*
+/*!
   @file DFRobot_BMI160.cpp
   @brief Define the basic structure of class DFRobot_BMI160 
   @copyright	Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)

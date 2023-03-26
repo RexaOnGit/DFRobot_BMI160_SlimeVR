@@ -1,4 +1,4 @@
-/*
+/*!
   @file DFRobot_BMI160.h
   @brief Define the basic structure of class DFRobot_BMI160 
   @copyright	Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
@@ -668,7 +668,7 @@ struct bmi160SensorData {
   int16_t y;           // Y-axis sensor data
   int16_t z;           // Z-axis sensor data
   uint32_t sensortime; // Sensor time
-} gyroData, accelData;
+};
 
 //Enumerator for choosing which interupt channels to match.
 enum bmi160IntChannel {
