@@ -9,7 +9,7 @@
  * @url https://github.com/DFRobot/DFRobot_BMI160
  */
 
-#include"DFRobot_BMI160.h"
+#include "DFRobot_BMI160.h"
 
 const uint8_t int_mask_lookup_table[13] = {
     BMI160_INT1_SLOPE_MASK,
@@ -823,7 +823,7 @@ int8_t DFRobot_BMI160::getAccelGyroData(uint8_t len, struct bmi160SensorData *ac
   return rslt;
 } 
 
-int8_t DFRobot_BMI160::getRegs(uint8_t reg_addr, uint8_t *data, uint16_t len, struct bmi160Dev *dev)
+int8_t DFRobot_BMI160::getRegs(uint8_t reg_addr, uint8_t *data, uint8_t len, struct bmi160Dev *dev)
 {
   
   int8_t rslt = BMI160_OK;
@@ -847,7 +847,7 @@ int8_t DFRobot_BMI160::getRegs(uint8_t reg_addr, uint8_t *data, uint16_t len, st
   return rslt;  
 }
 
-int8_t DFRobot_BMI160::I2cGetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint16_t len)
+int8_t DFRobot_BMI160::I2cGetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint8_t len)
 {
   Wire.beginTransmission(dev->id);
   Wire.write(reg_addr);
@@ -862,10 +862,9 @@ int8_t DFRobot_BMI160::I2cGetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8
   return BMI160_OK;
 }
 
-int8_t DFRobot_BMI160::setRegs(uint8_t reg_addr, uint8_t *data, uint16_t len, struct bmi160Dev *dev)
+int8_t DFRobot_BMI160::setRegs(uint8_t reg_addr, uint8_t *data, uint8_t len, struct bmi160Dev *dev)
 {
   int8_t rslt = BMI160_OK;
-  uint8_t count = 0;
   //Null-pointer check
   if (dev == NULL) {
     rslt = BMI160_E_NULL_PTR;
@@ -886,7 +885,7 @@ int8_t DFRobot_BMI160::setRegs(uint8_t reg_addr, uint8_t *data, uint16_t len, st
   return rslt;
 }
 
-int8_t DFRobot_BMI160::I2cSetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint16_t len)
+int8_t DFRobot_BMI160::I2cSetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint8_t len)
 {
   if ((dev->prevAccelCfg.power == BMI160_ACCEL_NORMAL_MODE)||(dev->prevGyroCfg.power == BMI160_GYRO_NORMAL_MODE)){
     Wire.beginTransmission(dev->id);
@@ -909,20 +908,11 @@ int8_t DFRobot_BMI160::I2cSetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8
   return BMI160_OK;
 }
 
-int8_t DFRobot_BMI160::SPIGetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint16_t len)
+int8_t DFRobot_BMI160::SPIGetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint8_t len)
 {
-  digitalWrite(10,LOW);
-  //SPI.transfer(0x6B);
-  //SPI.transfer(0x10);
-  uint8_t buff[10]={0};
-  for(int i = 0; i < 10; i++){
-    buff[i] = SPI.transfer(0x00);
-  }
-  
-  digitalWrite(10,HIGH);
   return BMI160_OK;
 }
-int8_t DFRobot_BMI160::SPISetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint16_t len)
+int8_t DFRobot_BMI160::SPISetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint8_t len)
 {
   return BMI160_OK;
 }
