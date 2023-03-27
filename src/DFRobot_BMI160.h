@@ -433,6 +433,15 @@ typedef enum {
 #define BMI160_FIFO_HEAD_M_G              UINT8_C(0x98)
 #define BMI160_FIFO_HEAD_M_G_A            UINT8_C(0x9C)
 
+//FIFO flag definitions
+#define BMI160_FIFO_HEADER_DATA_FRAME_FLAG_M            1 << 4 // 0b00 0 100  00
+#define BMI160_FIFO_HEADER_DATA_FRAME_FLAG_G            1 << 3 // 0b00 0 010  00
+#define BMI160_FIFO_HEADER_DATA_FRAME_FLAG_A            1 << 2 // 0b00 0 001  00
+#define BMI160_FIFO_HEADER_DATA_FRAME_MASK_HAS_DATA \
+       (BMI160_FIFO_HEADER_DATA_FRAME_FLAG_M |\
+        BMI160_FIFO_HEADER_DATA_FRAME_FLAG_G |\
+        BMI160_FIFO_HEADER_DATA_FRAME_FLAG_A)
+
 //FIFO sensor time length definitions
 #define BMI160_FIFO_SKIP_FRAME_LENGTH     UINT8_C(1)
 #define BMI160_FIFO_INPUT_CONFIG_LENGTH   UINT8_C(1)
