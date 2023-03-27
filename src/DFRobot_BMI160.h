@@ -433,7 +433,9 @@ typedef enum {
 #define BMI160_FIFO_HEAD_M_G_A            UINT8_C(0x9C)
 
 //FIFO sensor time length definitions
-#define BMI160_SENSOR_TIME_LENGTH         UINT8_C(3)
+#define BMI160_FIFO_SKIP_FRAME_LENGTH     UINT8_C(1)
+#define BMI160_FIFO_INPUT_CONFIG_LENGTH   UINT8_C(1)
+#define BMI160_FIFO_SENSOR_TIME_LENGTH    UINT8_C(3)
 
 //FIFO DOWN selection
 //Accel fifo down-sampling values
