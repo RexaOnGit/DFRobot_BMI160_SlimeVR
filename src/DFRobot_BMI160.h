@@ -47,13 +47,6 @@
 #define BMI160_FLAT_INT_EN_MASK                 UINT8_C(0x80)
 #define BMI160_DATA_RDY_INT_EN_MASK             UINT8_C(0x10)
 
-//Pullup enable registers
-#define BMI160_EN_PULL_UP_REG_1                 UINT8_C(0x37)
-#define BMI160_EN_PULL_UP_REG_2                 UINT8_C(0x9A)
-#define BMI160_EN_PULL_UP_REG_3                 UINT8_C(0xC0)
-#define BMI160_EN_PULL_UP_REG_4                 UINT8_C(0x90)
-#define BMI160_EN_PULL_UP_REG_5                 UINT8_C(0x80)
-
 //Mask definitions for INT_OUT_CTRL register
 #define BMI160_INT1_EDGE_CTRL_MASK              UINT8_C(0x01)
 #define BMI160_INT1_OUTPUT_MODE_MASK            UINT8_C(0x04)
@@ -240,6 +233,19 @@
 #define BMI160_COMMAND_REG_ADDR                 UINT8_C(0x7E)
 #define BMI160_SPI_COMM_TEST_ADDR               UINT8_C(0x7F)
 #define BMI160_INTL_PULLUP_CONF_ADDR            UINT8_C(0x85)
+
+//Mag setup definitions
+#define BMI160_MAG_SETUP_MODE                   UINT8_C(0x80)
+#define BMI160_MAG_DATA_MODE_2                  UINT8_C(0x01)
+#define BMI160_MAG_DATA_MODE_6                  UINT8_C(0x02)
+#define BMI160_MAG_DATA_MODE_8                  UINT8_C(0x03)
+
+//Pullup enable registers
+#define BMI160_EN_PULL_UP_REG_1                 UINT8_C(0x37)
+#define BMI160_EN_PULL_UP_REG_2                 UINT8_C(0x9A)
+#define BMI160_EN_PULL_UP_REG_3                 UINT8_C(0xC0)
+#define BMI160_EN_PULL_UP_REG_4                 UINT8_C(0x90)
+#define BMI160_EN_PULL_UP_REG_5                 UINT8_C(0x80)
 
 //Error code definitions
 #define BMI160_OK                               INT8_C(0)
