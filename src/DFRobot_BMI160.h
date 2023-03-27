@@ -373,18 +373,20 @@
 #define BMI160_GYRO_ODR_3200HZ            UINT8_C(0x0D)
 
 //Auxiliary sensor Output data rate
-#define BMI160_AUX_ODR_RESERVED           UINT8_C(0x00)
-#define BMI160_AUX_ODR_0_78HZ             UINT8_C(0x01)
-#define BMI160_AUX_ODR_1_56HZ             UINT8_C(0x02)
-#define BMI160_AUX_ODR_3_12HZ             UINT8_C(0x03)
-#define BMI160_AUX_ODR_6_25HZ             UINT8_C(0x04)
-#define BMI160_AUX_ODR_12_5HZ             UINT8_C(0x05)
-#define BMI160_AUX_ODR_25HZ               UINT8_C(0x06)
-#define BMI160_AUX_ODR_50HZ               UINT8_C(0x07)
-#define BMI160_AUX_ODR_100HZ              UINT8_C(0x08)
-#define BMI160_AUX_ODR_200HZ              UINT8_C(0x09)
-#define BMI160_AUX_ODR_400HZ              UINT8_C(0x0A)
-#define BMI160_AUX_ODR_800HZ              UINT8_C(0x0B)
+typedef enum {
+  BMI160_AUX_ODR_RESERVED,        
+  BMI160_AUX_ODR_0_78HZ,       // 25/32 HZ   
+  BMI160_AUX_ODR_1_56HZ,       // 25/16 HZ   
+  BMI160_AUX_ODR_3_12HZ,       //  25/8 HZ   
+  BMI160_AUX_ODR_6_25HZ,       //  25/4 HZ
+  BMI160_AUX_ODR_12_5HZ,       //  25/2 HZ  
+  BMI160_AUX_ODR_25HZ,             
+  BMI160_AUX_ODR_50HZ,           
+  BMI160_AUX_ODR_100HZ,             
+  BMI160_AUX_ODR_200HZ,              
+  BMI160_AUX_ODR_400HZ,           
+  BMI160_AUX_ODR_800HZ,      
+} BMI160MagRate;
 
 //Maximum limits definition
 #define BMI160_ACCEL_ODR_MAX              UINT8_C(15)
@@ -905,23 +907,23 @@ struct bmi160AccHighGIntCfg {
 
 //Union for storing interrupt configuration structures
 union bmi160IntTypeCfg {
-  struct bmi160AccTapIntCfg accTapInt;               // Tap interrupt structure
-  struct bmi160AccAnyMotIntCfg accAnyMotionInt;      // Slope interrupt structure
-  struct bmi160AccSigMotIntCfg accSigMotionInt;      // Significant motion interrupt structure
+  struct bmi160AccTapIntCfg        accTapInt;        // Tap interrupt structure
+  struct bmi160AccAnyMotIntCfg     accAnyMotionInt;  // Slope interrupt structure
+  struct bmi160AccSigMotIntCfg     accSigMotionInt;  // Significant motion interrupt structure
   struct bmi160AccStepDetectIntCfg accStepDetectInt; // Step detector interrupt structure
-  struct bmi160AccNoMotionIntCfg accNoMotionInt;     // No motion interrupt structure
-  struct bmi160AccOrientIntCfg accOrientInt;         // Orientation interrupt structure
+  struct bmi160AccNoMotionIntCfg   accNoMotionInt;   // No motion interrupt structure
+  struct bmi160AccOrientIntCfg     accOrientInt;     // Orientation interrupt structure
   struct bmi160AccFlatDetectIntCfg accFlatInt;       // Flat interrupt structure
-  struct bmi160AccLowGIntCfg accLowGInt;             // Low-g interrupt structure
-  struct bmi160AccHighGIntCfg accHighGInt;           // High-g interrupt structure
+  struct bmi160AccLowGIntCfg       accLowGInt;       // Low-g interrupt structure
+  struct bmi160AccHighGIntCfg      accHighGInt;      // High-g interrupt structure
 };
 
 //Structure for storing interupt pin settings
 struct bmi160IntSettg {
-  enum bmi160IntChannel intChannel;     // Interrupt channel
-  enum bmi160IntTypes intType;          // Select Interrupt
+  enum bmi160IntChannel    intChannel;  // Interrupt channel
+  enum bmi160IntTypes      intType;     // Select Interrupt
   struct bmi160IntPinSettg intPinSettg; // Structure configuring Interrupt pins
-  union bmi160IntTypeCfg intTypeCfg;    // Union configures required interrupt
+  union bmi160IntTypeCfg   intTypeCfg;  // Union configures required interrupt
   uint8_t fifoFullIntEn :1;             // FIFO FULL INT 1-enable, 0-disable
   uint8_t fifoWTMIntEn :1;              // FIFO WTM INT 1-enable, 0-disable
 };
