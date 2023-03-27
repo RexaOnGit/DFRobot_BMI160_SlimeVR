@@ -247,6 +247,11 @@
 #define BMI160_EN_PULL_UP_REG_4                 UINT8_C(0x90)
 #define BMI160_EN_PULL_UP_REG_5                 UINT8_C(0x80)
 
+//If config mode definitons
+#define BMI160_IF_CONF_MODE_PRI_AUTO_SEC_OFF    0 << 4
+#define BMI160_IF_CONF_MODE_PRI_I2C_SEC_OIS     1 << 4
+#define BMI160_IF_CONF_MODE_PRI_AUTO_SEC_MAG    2 << 4
+
 //Error code definitions
 #define BMI160_OK                               INT8_C(0)
 #define BMI160_E_NULL_PTR                       INT8_C(-1)
