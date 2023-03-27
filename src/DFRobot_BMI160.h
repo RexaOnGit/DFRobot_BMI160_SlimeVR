@@ -338,9 +338,10 @@
 #define BMI160_ACCEL_BW_RES_AVG64         UINT8_C(0x06)
 #define BMI160_ACCEL_BW_RES_AVG128        UINT8_C(0x07)
 
-#define BMI160_GYRO_BW_OSR4_MODE          UINT8_C(0x00)
-#define BMI160_GYRO_BW_OSR2_MODE          UINT8_C(0x01)
-#define BMI160_GYRO_BW_NORMAL_MODE        UINT8_C(0x02)
+//Filter mode definitions
+#define BMI160_BW_OSR4_MODE               UINT8_C(0x00)
+#define BMI160_BW_OSR2_MODE               UINT8_C(0x01)
+#define BMI160_BW_NORMAL_MODE             UINT8_C(0x02)
 
 //Output Data Rate settings
 //Accel Output data rate

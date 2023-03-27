@@ -119,7 +119,7 @@ void DFRobot_BMI160::defaultParamSettg(struct bmi160Dev *dev)
   dev->accelCfg.odr = BMI160_ACCEL_ODR_100HZ;
   dev->accelCfg.power = BMI160_ACCEL_SUSPEND_MODE;
   dev->accelCfg.range = BMI160_ACCEL_RANGE_2G;
-  dev->gyroCfg.bw = BMI160_GYRO_BW_NORMAL_MODE;
+  dev->gyroCfg.bw = BMI160_BW_NORMAL_MODE;
   dev->gyroCfg.odr = BMI160_GYRO_ODR_100HZ;
   dev->gyroCfg.power = BMI160_GYRO_SUSPEND_MODE;
   dev->gyroCfg.range = BMI160_GYRO_RANGE_2000_DPS;
@@ -146,7 +146,7 @@ int8_t DFRobot_BMI160::setSensConf(struct bmi160Dev *dev)
 
   dev->gyroCfg.odr = BMI160_GYRO_ODR_3200HZ;
   dev->gyroCfg.range = BMI160_GYRO_RANGE_2000_DPS;
-  dev->gyroCfg.bw = BMI160_GYRO_BW_NORMAL_MODE;
+  dev->gyroCfg.bw = BMI160_BW_NORMAL_MODE;
 
   dev->gyroCfg.power = BMI160_GYRO_NORMAL_MODE; 
   
@@ -1287,7 +1287,7 @@ int8_t DFRobot_BMI160::setStepPowerMode(uint8_t model,struct bmi160Dev *dev)
   dev->accelCfg.bw = BMI160_ACCEL_BW_NORMAL_AVG4;
   dev->accelCfg.range = BMI160_ACCEL_RANGE_2G;
   dev->gyroCfg.range = BMI160_GYRO_RANGE_2000_DPS;
-  dev->gyroCfg.bw = BMI160_GYRO_BW_NORMAL_MODE;
+  dev->gyroCfg.bw = BMI160_BW_NORMAL_MODE;
 
   rslt = DFRobot_BMI160::setAccelConf(dev);
   if (rslt == BMI160_OK) {
