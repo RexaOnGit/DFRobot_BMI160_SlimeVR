@@ -1010,6 +1010,12 @@ public:
   // @return BMI160_OK(0) means success
   int8_t setStepPowerMode(uint8_t model);
 
+  // Set a specified register in the BMI160
+  // @param address register to set
+  // @param data byte to set in the register
+  // @return BMI160_OK(0) means success
+  int8_t setRegister(uint8_t address, uint8_t* data);
+
   uint8_t onlyAccel=1;
   uint8_t onlyGyro=2;
   uint8_t bothAccelGyro=3;

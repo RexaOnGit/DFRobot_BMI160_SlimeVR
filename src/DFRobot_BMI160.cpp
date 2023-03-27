@@ -862,6 +862,10 @@ int8_t DFRobot_BMI160::I2cGetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8
   return BMI160_OK;
 }
 
+int8_t DFRobot_BMI160::setRegister(uint8_t address, uint8_t* data){
+  return setRegs(address, data, 1, Obmi160);
+}
+
 int8_t DFRobot_BMI160::setRegs(uint8_t reg_addr, uint8_t *data, uint8_t len, struct bmi160Dev *dev)
 {
   int8_t rslt = BMI160_OK;
