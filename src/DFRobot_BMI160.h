@@ -222,7 +222,6 @@
 #define BMI160_INT_FLAT_1_ADDR                  UINT8_C(0x68)
 #define BMI160_FOC_CONF_ADDR                    UINT8_C(0x69)
 #define BMI160_CONF_ADDR                        UINT8_C(0x6A)
-
 #define BMI160_IF_CONF_ADDR                     UINT8_C(0x6B)
 #define BMI160_SELF_TEST_ADDR                   UINT8_C(0x6D)
 #define BMI160_OFFSET_ADDR                      UINT8_C(0x71)
@@ -277,8 +276,10 @@
 //Soft reset command
 #define BMI160_SOFT_RESET_CMD                   UINT8_C(0xb6)
 #define BMI160_SOFT_RESET_DELAY_MS              UINT8_C(15)
+
 //Start FOC command
 #define BMI160_START_FOC_CMD                    UINT8_C(0x03)
+
 //NVM backup enabling command
 #define BMI160_NVM_BACKUP_EN                    UINT8_C(0xA0)
 
@@ -406,7 +407,6 @@
 #define BMI160_FIFO_G_A_ENABLE            UINT8_C(0xC0)
 #define BMI160_FIFO_M_G_A_ENABLE          UINT8_C(0xE0)
 
-
 //Accel, gyro and aux. sensor length and also their combined
 //length definitions in FIFO
 #define BMI160_FIFO_G_LENGTH              UINT8_C(6)
@@ -416,7 +416,6 @@
 #define BMI160_FIFO_MA_LENGTH             UINT8_C(14)
 #define BMI160_FIFO_MG_LENGTH             UINT8_C(14)
 #define BMI160_FIFO_MGA_LENGTH            UINT8_C(20)
-
 
 //FIFO Header Data definitions
 #define BMI160_FIFO_HEAD_SKIP_FRAME       UINT8_C(0x40)
@@ -431,10 +430,8 @@
 #define BMI160_FIFO_HEAD_M_G              UINT8_C(0x98)
 #define BMI160_FIFO_HEAD_M_G_A            UINT8_C(0x9C)
 
-
 //FIFO sensor time length definitions
 #define BMI160_SENSOR_TIME_LENGTH         UINT8_C(3)
-
 
 //FIFO DOWN selection
 //Accel fifo down-sampling values
@@ -478,7 +475,6 @@
 #define BMI160_SENSOR_TIME_XLSB_BYTE      UINT8_C(1)
 #define BMI160_SENSOR_TIME_MSB_BYTE       UINT8_C(2)
 
-
 //Interface settings
 #define BMI160_SPI_INTF                   UINT8_C(1)
 #define BMI160_I2C_INTF                   UINT8_C(0)
@@ -495,6 +491,11 @@
 
 //Error code mask
 #define BMI160_ERR_REG_MASK               UINT8_C(0x0F)
+#define BMI160_ERR_MASK_MAG_DRDY_ERR         0x10000000
+#define BMI160_ERR_MASK_DROP_CMD_ERR         0x01000000
+#define BMI160_ERR_MASK_I2C_FAIL             0x00100000
+#define BMI160_ERR_MASK_ERROR_CODE           0x00011110
+#define BMI160_ERR_MASK_CHIP_NOT_OPERABLE    0x00000001
 
 //BMI160 I2C address
 #define BMI160_I2C_ADDR                   UINT8_C(0x68)
@@ -576,7 +577,6 @@
 
 #define BMI160_ACCEL_OFFSET_EN_POS        UINT8_C(6)
 #define BMI160_ACCEL_OFFSET_EN_MSK        UINT8_C(0x40)
-
 
 #define BMI160_GYRO_OFFSET_POS            UINT16_C(8)
 #define BMI160_GYRO_OFFSET_MSK            UINT16_C(0x0300)
