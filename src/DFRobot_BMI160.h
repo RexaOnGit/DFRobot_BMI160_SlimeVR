@@ -952,6 +952,10 @@ class DFRobot_BMI160{
 public:
   DFRobot_BMI160();
   
+  // Read the Chip ID
+  // @return Chip ID
+  uint8_t getChipID();
+
   // Initialize the BMI160
   // @param address BMI160 I2C address or BMI160 select pin
   // @n     0x68: connect SDIO to ground (default)
@@ -1045,6 +1049,12 @@ public:
   // @param data byte to set in the register
   // @return BMI160_OK(0) means success
   int8_t setRegister(uint8_t address, uint8_t data);
+
+  // Read a specified register in the BMI160
+  // @param address register to read
+  // @param data storage object to capture read byte
+  // @return BMI160_OK(0) means success
+  int8_t getRegister(uint8_t address, uint8_t data);
 
   uint8_t onlyAccel=1;
   uint8_t onlyGyro=2;

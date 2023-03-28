@@ -36,7 +36,18 @@ DFRobot_BMI160::DFRobot_BMI160()
   Oaccel= (struct bmi160SensorData*)malloc(sizeof(struct bmi160SensorData));
   Ogyro = (struct bmi160SensorData*)malloc(sizeof(struct bmi160SensorData));
 }
-  
+
+uint8_t DFRobot_BMI160::getChipID() {
+  uint8_t data = 0x00;
+  int8_t result = getRegister(Obmi160->comAddress, data);
+  if (result == BMI160_OK) {
+    return data;
+  }
+  else {
+    return 0x00;
+  }
+}
+
 int8_t DFRobot_BMI160::I2cInit(int8_t i2c_addr)
 {
   Obmi160->comAddress = i2c_addr;
@@ -823,6 +834,10 @@ int8_t DFRobot_BMI160::getAccelGyroData(uint8_t len, struct bmi160SensorData *ac
 
   return result;
 } 
+
+int8_t DFRobot_BMI160::getRegister(uint8_t address, uint8_t data) {
+  return getRegs(address, &data, 1, Obmi160);
+}
 
 int8_t DFRobot_BMI160::getRegs(uint8_t reg_addr, uint8_t *data, uint8_t len, struct bmi160Dev *dev)
 {
