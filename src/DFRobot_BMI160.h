@@ -952,9 +952,25 @@ class DFRobot_BMI160{
 public:
   DFRobot_BMI160();
   
+  // Initialize the BMI160
+  // @param address BMI160 I2C address or BMI160 select pin
+  // @n     0x68: connect SDIO to ground (default)
+  // @n     0x69: set I2C address by parameter
+  // @n      0-3: index in SPI select pin array
+  // @param accelRate
+  // @param accelRange
+  // @param accelFilterMode
+  // @param gyroRate
+  // @param gyroRange
+  // @param gyroFilterMode
+  // @return BMI160_OK(0) means success
+  int8_t setSensorConfig(uint8_t address, 
+                     uint8_t accelRate, uint8_t accelRange, uint8_t accelFilterMode,
+                     uint8_t gyroRate, uint8_t gyroRange, uint8_t gyroFilterMode);
+
   // Set the I2C address and initialize I2C
   // @param i2c_addr  bmi160 i2c addr
-  // @n     0x68: connect SDIO pin of the BMI160 to GND which means the default I2C address
+  // @n     0x68: connect SDIO to ground (default)
   // @n     0x69: set I2C address by parameter
   // @return BMI160_OK(0) means success
   int8_t I2cInit(int8_t i2c_addr = BMI160_I2C_ADDR);
@@ -1044,8 +1060,7 @@ public:
     int8_t softReset(struct bmi160Dev *dev);
     void   defaultParamSettg(struct bmi160Dev *dev);
     
-    int8_t setSensConf();
-    int8_t setSensConf(struct bmi160Dev *dev);
+    int8_t setSensorConfig(struct bmi160Dev *dev);
     
     int8_t setAccelConf(struct bmi160Dev *dev);
     int8_t checkAccelConfig(uint8_t *data, struct bmi160Dev *dev);
