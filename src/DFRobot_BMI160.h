@@ -1078,6 +1078,14 @@ public:
   // @param address to store in the mag address register
   void setMagDeviceAddress(uint8_t address);
 
+  // Clear FIFO
+  void resetFIFO();
+
+  // Read the error code register
+  // @param code storage object to get error code in
+  // @return BMI160_OK(0) means success
+  int8_t getErrorRegister(uint8_t* code);
+
   uint8_t onlyAccel=1;
   uint8_t onlyGyro=2;
   uint8_t bothAccelGyro=3;

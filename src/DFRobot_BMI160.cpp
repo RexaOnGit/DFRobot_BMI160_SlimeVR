@@ -857,6 +857,13 @@ int8_t DFRobot_BMI160::getAccelGyroData(uint8_t len, struct bmi160SensorData *ac
   return result;
 } 
 
+int8_t DFRobot_BMI160::getErrorRegister(uint8_t* code) {
+  uint8_t buffer = {0};
+  int8_t result = getRegister(BMI160_ERROR_REG_ADDR, buffer);
+  if (result == BMI160_OK) {*code = buffer;}
+  return result;
+}
+
 int8_t DFRobot_BMI160::getRegister(uint8_t address, uint8_t data) {
   return getRegs(address, &data, 1, Obmi160);
 }
@@ -1430,4 +1437,7 @@ int8_t DFRobot_BMI160::readStepCounter(uint16_t *stepVal, struct bmi160Dev *dev)
   return result; 
 }
 
+void DFRobot_BMI160::resetFIFO() {
+  setRegister(BMI160_COMMAND_REG_ADDR, BMI160_FIFO_FLUSH_VALUE);
+}
 
