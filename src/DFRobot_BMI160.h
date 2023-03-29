@@ -180,6 +180,8 @@
 #define BMI160_ACCEL_DATA_ADDR                  UINT8_C(0x12)
 #define BMI160_STATUS_ADDR                      UINT8_C(0x1B)
 #define BMI160_INT_STATUS_ADDR                  UINT8_C(0x1C)
+#define BMI160_TEMPERATURE_ADDR_0               UINT8_C(0x20)
+#define BMI160_TEMPERATURE_ADDR_1               UINT8_C(0x21)
 #define BMI160_FIFO_LENGTH_ADDR                 UINT8_C(0x22)
 #define BMI160_FIFO_DATA_ADDR                   UINT8_C(0x24)
 #define BMI160_ACCEL_CONFIG_ADDR                UINT8_C(0x40)
@@ -978,6 +980,11 @@ public:
   // @n     0x69: set I2C address by parameter
   // @return BMI160_OK(0) means success
   int8_t I2cInit(int8_t i2c_addr = BMI160_I2C_ADDR);
+
+  // Get the temperature data
+  // @param output storage object for getting the data in
+  // @return BMI160_OK(0) means success
+  int8_t getTemperature(int16_t* output);
   
   // Select mode and save returned data to parameter data
   // @param type
@@ -1090,6 +1097,8 @@ public:
     int8_t setGyroPwr(struct bmi160Dev *dev);
 
     int8_t checkInvalidSettg( struct bmi160Dev *dev);
+
+    int8_t getTemperature(uint8_t* output, struct bmi160Dev* dev);
 
     int8_t getSensorData(uint8_t select_sensor, struct bmi160SensorData *accel, struct bmi160SensorData *gyro,struct bmi160Dev *dev);
     int8_t getAccelData(uint8_t len, struct bmi160SensorData *accel, struct bmi160Dev *dev);

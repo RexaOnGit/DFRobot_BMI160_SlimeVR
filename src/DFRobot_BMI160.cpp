@@ -495,6 +495,19 @@ int8_t DFRobot_BMI160::checkInvalidSettg( struct bmi160Dev *dev)
   return result;
 }
 
+int8_t DFRobot_BMI160::getTemperature(int16_t* output) {
+  uint8_t data[2] = {0,0};
+  int8_t result = getTemperature(data, Obmi160);
+  if (result == BMI160_OK) {
+    *output = (((int16_t)data[1]) << 8) | data[0];
+  }
+  return result;
+}
+
+int8_t DFRobot_BMI160::getTemperature(uint8_t* data, struct bmi160Dev* dev) {
+  return getRegs(BMI160_TEMPERATURE_ADDR_0, data, 2, dev);
+}
+
 int8_t DFRobot_BMI160::getSensorData(uint8_t type, int16_t* data)
 {
   int8_t result=BMI160_OK;
