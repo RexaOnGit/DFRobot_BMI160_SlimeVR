@@ -178,10 +178,10 @@
 #define BMI160_AUX_DATA_ADDR                    UINT8_C(0x04)
 #define BMI160_GYRO_DATA_ADDR                   UINT8_C(0x0C)
 #define BMI160_ACCEL_DATA_ADDR                  UINT8_C(0x12)
+#define BMI160_SENSOR_TIME_ADDR                 UINT8_C(0x18)
 #define BMI160_STATUS_ADDR                      UINT8_C(0x1B)
 #define BMI160_INT_STATUS_ADDR                  UINT8_C(0x1C)
-#define BMI160_TEMPERATURE_ADDR_0               UINT8_C(0x20)
-#define BMI160_TEMPERATURE_ADDR_1               UINT8_C(0x21)
+#define BMI160_TEMPERATURE_ADDR                 UINT8_C(0x20)
 #define BMI160_FIFO_LENGTH_ADDR                 UINT8_C(0x22)
 #define BMI160_FIFO_DATA_ADDR                   UINT8_C(0x24)
 #define BMI160_ACCEL_CONFIG_ADDR                UINT8_C(0x40)
@@ -981,6 +981,11 @@ public:
   // @return BMI160_OK(0) means success
   int8_t I2cInit(int8_t i2c_addr = BMI160_I2C_ADDR);
 
+  // Get the current sensor time
+  // @param time storage object for getting the data in
+  // @return BMI160_OK(0) means success
+  int8_t getSensorTime(uint32_t* time);
+
   // Get the temperature data
   // @param output storage object for getting the data in
   // @return BMI160_OK(0) means success
@@ -1097,6 +1102,8 @@ public:
     int8_t setGyroPwr(struct bmi160Dev *dev);
 
     int8_t checkInvalidSettg( struct bmi160Dev *dev);
+
+    int8_t getSensorTime(uint8_t* data, struct bmi160Dev* dev);
 
     int8_t getTemperature(uint8_t* output, struct bmi160Dev* dev);
 

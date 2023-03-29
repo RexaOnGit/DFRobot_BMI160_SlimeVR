@@ -495,6 +495,23 @@ int8_t DFRobot_BMI160::checkInvalidSettg( struct bmi160Dev *dev)
   return result;
 }
 
+int8_t DFRobot_BMI160::getSensorTime(uint32_t* time) {
+  uint8_t data[3] = {0,0,0};
+  int8_t result = getSensorTime(data, Obmi160);
+  if (result == BMI160_OK) {
+    *time = uint32_t(
+      (((uint32_t)data[2]) << 16) |
+      (((uint32_t)data[1]) << 8)  |
+      ((uint32_t)data[0])
+    );
+  }
+  return result;
+}
+
+int8_t DFRobot_BMI160::getSensorTime(uint8_t* data, struct bmi160Dev* dev) {
+  return getRegs(BMI160_SENSOR_TIME_ADDR, data, 3, dev);
+}
+
 int8_t DFRobot_BMI160::getTemperature(int16_t* output) {
   uint8_t data[2] = {0,0};
   int8_t result = getTemperature(data, Obmi160);
@@ -505,7 +522,7 @@ int8_t DFRobot_BMI160::getTemperature(int16_t* output) {
 }
 
 int8_t DFRobot_BMI160::getTemperature(uint8_t* data, struct bmi160Dev* dev) {
-  return getRegs(BMI160_TEMPERATURE_ADDR_0, data, 2, dev);
+  return getRegs(BMI160_TEMPERATURE_ADDR, data, 2, dev);
 }
 
 int8_t DFRobot_BMI160::getSensorData(uint8_t type, int16_t* data)
