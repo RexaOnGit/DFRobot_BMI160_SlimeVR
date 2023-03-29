@@ -1441,3 +1441,20 @@ void DFRobot_BMI160::resetFIFO() {
   setRegister(BMI160_COMMAND_REG_ADDR, BMI160_FIFO_FLUSH_VALUE);
 }
 
+int8_t DFRobot_BMI160::getFIFOLength(uint16_t* count) {
+  uint8_t buffer[2] = {0,0};
+  int8_t result = getRegs(BMI160_FIFO_LENGTH_ADDR, buffer, 2, Obmi160);
+  if (result == BMI160_OK) {
+    *count = (((int16_t)buffer[1]) << 8) | buffer[0];
+  }
+  return result;
+}
+
+int8_t DFRobot_BMI160::getFIFOBytes(uint8_t* data, uint16_t length) {
+  int8_t result = BMI160_OK;
+  if (length) {
+    result = getRegs(BMI160_FIFO_DATA_ADDR, data, length, Obmi160);
+  }
+  return result;
+}
+

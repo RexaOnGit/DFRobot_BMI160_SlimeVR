@@ -1068,6 +1068,11 @@ public:
   // @return BMI160_OK(0) means success
   int8_t getRegister(uint8_t address, uint8_t data);
 
+  // Read the error code register
+  // @param code storage object to get error code in
+  // @return BMI160_OK(0) means success
+  int8_t getErrorRegister(uint8_t* code);
+
   // Set magnetometer (aux) register value
   // @param address register to set
   // @param data to set in the register
@@ -1081,10 +1086,16 @@ public:
   // Clear FIFO
   void resetFIFO();
 
-  // Read the error code register
-  // @param code storage object to get error code in
+  // Get length of the FIFO buffer
+  // @param count storage object to get the FIFO length in
   // @return BMI160_OK(0) means success
-  int8_t getErrorRegister(uint8_t* code);
+  int8_t getFIFOLength(uint16_t* count);
+
+  // Get data from the FIFO buffer
+  // @param data storage object to get the FIFO data in
+  // @param length size of the buffer
+  // @return BMI160_OK(0) means success
+  int8_t getFIFOBytes(uint8_t* data, uint16_t length);
 
   uint8_t onlyAccel=1;
   uint8_t onlyGyro=2;
