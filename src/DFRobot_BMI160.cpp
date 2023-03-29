@@ -497,7 +497,7 @@ int8_t DFRobot_BMI160::checkInvalidSettg( struct bmi160Dev *dev)
 
 int8_t DFRobot_BMI160::getSensorTime(uint32_t* time) {
   uint8_t data[3] = {0,0,0};
-  int8_t result = getSensorTime(data, Obmi160);
+  int8_t result = getRegs(BMI160_SENSOR_TIME_ADDR, data, 3, Obmi160);
   if (result == BMI160_OK) {
     *time = uint32_t(
       (((uint32_t)data[2]) << 16) |
@@ -508,21 +508,13 @@ int8_t DFRobot_BMI160::getSensorTime(uint32_t* time) {
   return result;
 }
 
-int8_t DFRobot_BMI160::getSensorTime(uint8_t* data, struct bmi160Dev* dev) {
-  return getRegs(BMI160_SENSOR_TIME_ADDR, data, 3, dev);
-}
-
 int8_t DFRobot_BMI160::getTemperature(int16_t* output) {
   uint8_t data[2] = {0,0};
-  int8_t result = getTemperature(data, Obmi160);
+  int8_t result = getRegs(BMI160_TEMPERATURE_ADDR, data, 2, Obmi160);
   if (result == BMI160_OK) {
     *output = (((int16_t)data[1]) << 8) | data[0];
   }
   return result;
-}
-
-int8_t DFRobot_BMI160::getTemperature(uint8_t* data, struct bmi160Dev* dev) {
-  return getRegs(BMI160_TEMPERATURE_ADDR, data, 2, dev);
 }
 
 int8_t DFRobot_BMI160::getSensorData(uint8_t type, int16_t* data)
@@ -908,7 +900,7 @@ int8_t DFRobot_BMI160::I2cGetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8
   return BMI160_OK;
 }
 
-int8_t DFRobot_BMI160::setRegister(uint8_t address, uint8_t data){
+int8_t DFRobot_BMI160::setRegister(uint8_t address, uint8_t data) {
   return setRegs(address, &data, 1, Obmi160);
 }
 
@@ -932,6 +924,31 @@ int8_t DFRobot_BMI160::setRegs(uint8_t reg_addr, uint8_t *data, uint8_t len, str
       result = BMI160_E_COM_FAIL;
   }
 
+  return result;
+}
+
+void DFRobot_BMI160::setMagDeviceAddress(uint8_t address) {
+  uint8_t addressShifted = address << 1;
+  setRegister(BMI160_AUX_IF_0_ADDR, addressShifted);
+}
+
+int8_t DFRobot_BMI160::setMagRegister(uint8_t address, uint8_t data) {
+  int8_t result;
+  result = setRegister(BMI160_AUX_IF_4_ADDR, data);
+  if (result == BMI160_OK) {
+    result = setRegister(BMI160_AUX_IF_3_ADDR, address);
+    if (result == BMI160_OK) {
+      delay(3);
+      uint8_t buffer = 0x00;
+      result = getRegister(BMI160_ERROR_REG_ADDR, buffer);
+      if (result == BMI160_OK) {
+        if (buffer & BMI160_ERR_MASK_I2C_FAIL) {
+          printf("BMI160: mag register proxy write error\n");
+          result = BMI160_E_COM_FAIL;
+        }
+      }
+    }
+  }
   return result;
 }
 

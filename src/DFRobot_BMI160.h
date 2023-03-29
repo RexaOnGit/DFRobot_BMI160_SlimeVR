@@ -1068,6 +1068,16 @@ public:
   // @return BMI160_OK(0) means success
   int8_t getRegister(uint8_t address, uint8_t data);
 
+  // Set magnetometer (aux) register value
+  // @param address register to set
+  // @param data to set in the register
+  // @return BMI160_OK(0) means success
+  int8_t setMagRegister(uint8_t address, uint8_t data);
+
+  // Set mag device address
+  // @param address to store in the mag address register
+  void setMagDeviceAddress(uint8_t address);
+
   uint8_t onlyAccel=1;
   uint8_t onlyGyro=2;
   uint8_t bothAccelGyro=3;
@@ -1102,10 +1112,6 @@ public:
     int8_t setGyroPwr(struct bmi160Dev *dev);
 
     int8_t checkInvalidSettg( struct bmi160Dev *dev);
-
-    int8_t getSensorTime(uint8_t* data, struct bmi160Dev* dev);
-
-    int8_t getTemperature(uint8_t* output, struct bmi160Dev* dev);
 
     int8_t getSensorData(uint8_t select_sensor, struct bmi160SensorData *accel, struct bmi160SensorData *gyro,struct bmi160Dev *dev);
     int8_t getAccelData(uint8_t len, struct bmi160SensorData *accel, struct bmi160Dev *dev);
