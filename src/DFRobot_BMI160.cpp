@@ -1469,13 +1469,35 @@ void DFRobot_BMI160::resetFIFO() {
 
 void DFRobot_BMI160::setFIFOHeaderModeEnabled(bool enabled) {
   uint8_t enabledAsByte = enabled ? 0x1 : 0;
-  getBits(BMI160_FIFO_CONFIG_1_ADDR, 4, 1, &enabledAsByte);
+  getBits(BMI160_FIFO_CONFIG_1_ADDR, BMI160_FIFO_HEADER_ENABLE_BIT, 1, &enabledAsByte);
 }
 
 bool DFRobot_BMI160::getFIFOHeaderModeEnabled() {
   uint8_t buffer;
-  getBits(BMI160_FIFO_CONFIG_1_ADDR, 4, 1, &buffer);
+  getBits(BMI160_FIFO_CONFIG_1_ADDR, BMI160_FIFO_HEADER_ENABLE_BIT, 1, &buffer);
   return !!buffer;
+}
+
+void DFRobot_BMI160::setGyroFIFOEnabled(bool enabled) {
+  uint8_t enabledAsByte = enabled ? 0x1 : 0;
+  getBits(BMI160_FIFO_CONFIG_1_ADDR, BMI160_FIFO_GYRO_ENABLE_BIT, 1, &enabledAsByte);
+}
+
+bool DFRobot_BMI160::getGyroFIFOEnabled() {
+  uint8_t buffer;
+  getBits(BMI160_FIFO_CONFIG_1_ADDR, BMI160_FIFO_GYRO_ENABLE_BIT, 1, &buffer);
+  return !!buffer;  
+}
+
+void DFRobot_BMI160::setAccelFIFOEnabled(bool enabled) {
+  uint8_t enabledAsByte = enabled ? 0x1 : 0;
+  getBits(BMI160_FIFO_CONFIG_1_ADDR, BMI160_FIFO_ACCEL_ENABLE_BIT, 1, &enabledAsByte);  
+}
+
+bool DFRobot_BMI160::getAccelFIFOEnabled() {
+  uint8_t buffer;
+  getBits(BMI160_FIFO_CONFIG_1_ADDR, BMI160_FIFO_ACCEL_ENABLE_BIT, 1, &buffer);
+  return !!buffer;  
 }
 
 int8_t DFRobot_BMI160::getFIFOLength(uint16_t* count) {

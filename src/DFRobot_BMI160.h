@@ -444,6 +444,11 @@ typedef enum {
         BMI160_FIFO_HEADER_DATA_FRAME_FLAG_G |\
         BMI160_FIFO_HEADER_DATA_FRAME_FLAG_A)
 
+//FIFO enable bits
+#define BMI160_FIFO_HEADER_ENABLE_BIT     UINT8_C(4)
+#define BMI160_FIFO_ACCEL_ENABLE_BIT      UINT8_C(6)
+#define BMI160_FIFO_GYRO_ENABLE_BIT       UINT8_C(7)
+
 //FIFO sensor time length definitions
 #define BMI160_FIFO_SKIP_FRAME_LENGTH     UINT8_C(1)
 #define BMI160_FIFO_INPUT_CONFIG_LENGTH   UINT8_C(1)
@@ -1109,6 +1114,22 @@ public:
   // Get FIFO Header-Mode enabled status
   // @return current FIFO Header-Mode enabled status
   bool getFIFOHeaderModeEnabled();
+
+  // Set Gyro FIFO enabled status
+  // @param enabled New status
+  void setGyroFIFOEnabled(bool enabled);
+
+  // Get Gyro FIFO enabled status
+  // @param enabled New status
+  bool getGyroFIFOEnabled();
+
+  // Set Accel FIFO enabled status
+  // @param enabled New status
+  void setAccelFIFOEnabled(bool enabled);
+
+  // Get Accel FIFO enabled status
+  // @param enabled New status
+  bool getAccelFIFOEnabled();
 
   // Get length of the FIFO buffer
   // @param count storage object to get the FIFO length in
