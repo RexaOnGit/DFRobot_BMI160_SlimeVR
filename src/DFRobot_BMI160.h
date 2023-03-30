@@ -1068,6 +1068,22 @@ public:
   // @return BMI160_OK(0) means success
   int8_t getRegister(uint8_t address, uint8_t data);
 
+  // Set specific bits in the target register
+  // @param address register to set bits in
+  // @param bitStart bit position in the register to start on
+  // @param length number of bits to set
+  // @param data byte containting the bits to set
+  // @return BMI160_OK(0) means success
+  int8_t setBits(uint8_t address, uint8_t bitStart, uint8_t length, uint8_t data);
+
+  // Read specifi bits in the target register
+  // @param address register to get bits from
+  // @param bitStart bit position in the register to start on
+  // @param length number of bits to get
+  // @param data storage object to get the bits in
+  // @return BMI160_OK(0) means success
+  int8_t getBits(uint8_t address, uint8_t bitStart, uint8_t length, uint8_t* data);
+
   // Read the error code register
   // @param code storage object to get error code in
   // @return BMI160_OK(0) means success
@@ -1085,6 +1101,14 @@ public:
 
   // Clear FIFO
   void resetFIFO();
+
+  // Set FIFO Header-Mode enabled status
+  // @param enabled New status
+  void setFIFOHeaderModeEnabled(bool enabled);
+
+  // Get FIFO Header-Mode enabled status
+  // @return current FIFO Header-Mode enabled status
+  bool getFIFOHeaderModeEnabled();
 
   // Get length of the FIFO buffer
   // @param count storage object to get the FIFO length in

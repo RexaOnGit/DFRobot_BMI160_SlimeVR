@@ -864,6 +864,18 @@ int8_t DFRobot_BMI160::getErrorRegister(uint8_t* code) {
   return result;
 }
 
+int8_t DFRobot_BMI160::getBits(uint8_t address, uint8_t bitStart, uint8_t length, uint8_t* data) {
+  uint8_t byte;
+  int8_t result = getRegs(address, &byte, 1, Obmi160);
+  if (result == BMI160_OK) {
+    uint8_t mask = ((1 << length) - 1) << bitStart;
+    byte &= mask;
+    byte >>= bitStart;
+    *data = byte;
+  }
+  return result;
+}
+
 int8_t DFRobot_BMI160::getRegister(uint8_t address, uint8_t data) {
   return getRegs(address, &data, 1, Obmi160);
 }
@@ -909,6 +921,20 @@ int8_t DFRobot_BMI160::I2cGetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8
 
 int8_t DFRobot_BMI160::setRegister(uint8_t address, uint8_t data) {
   return setRegs(address, &data, 1, Obmi160);
+}
+
+int8_t DFRobot_BMI160::setBits(uint8_t address, uint8_t bitStart, uint8_t length, uint8_t data) {
+  uint8_t byte;
+  int8_t result = getRegs(address, &byte, 1, Obmi160);
+  if (result == BMI160_OK) {
+    uint8_t mask = ((1 << length) - 1) << bitStart;
+    data <<= bitStart;
+    data &= mask;
+    byte &= ~(mask);
+    byte |= data;
+    result = setRegs(address, &byte, 1, Obmi160);
+  }
+  return result;
 }
 
 int8_t DFRobot_BMI160::setRegs(uint8_t reg_addr, uint8_t *data, uint8_t len, struct bmi160Dev *dev)
@@ -1439,6 +1465,17 @@ int8_t DFRobot_BMI160::readStepCounter(uint16_t *stepVal, struct bmi160Dev *dev)
 
 void DFRobot_BMI160::resetFIFO() {
   setRegister(BMI160_COMMAND_REG_ADDR, BMI160_FIFO_FLUSH_VALUE);
+}
+
+void DFRobot_BMI160::setFIFOHeaderModeEnabled(bool enabled) {
+  uint8_t enabledAsByte = enabled ? 0x1 : 0;
+  getBits(BMI160_FIFO_CONFIG_1_ADDR, 4, 1, &enabledAsByte);
+}
+
+bool DFRobot_BMI160::getFIFOHeaderModeEnabled() {
+  uint8_t buffer;
+  getBits(BMI160_FIFO_CONFIG_1_ADDR, 4, 1, &buffer);
+  return !!buffer;
 }
 
 int8_t DFRobot_BMI160::getFIFOLength(uint16_t* count) {
