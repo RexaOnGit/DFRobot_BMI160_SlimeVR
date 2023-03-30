@@ -1517,3 +1517,17 @@ int8_t DFRobot_BMI160::getFIFOBytes(uint8_t* data, uint16_t length) {
   return result;
 }
 
+bool DFRobot_BMI160::getGyroDirty() {
+  uint8_t buffer;
+  getBits(BMI160_STATUS_ADDR, BMI160_STATUS_DIRTY_GYRO, 1, &buffer);
+  return buffer;
+}
+
+void DFRobot_BMI160::waitForGyroDirty() {
+  do {
+    if (!getGyroDirty()) {
+      delayMicroseconds(150);
+    }
+  } while (!getGyroDirty());
+}
+

@@ -608,6 +608,9 @@ typedef enum {
 #define BMI160_NVM_STATUS_POS             UINT8_C(4)
 #define BMI160_NVM_STATUS_MSK             UINT8_C(0x10)
 
+//Dirty sensor defines
+#define BMI160_STATUS_DIRTY_GYRO          UINT8_C(6)
+
 //BIT SLICE GET AND SET FUNCTIONS
 #define  BMI160_GET_BITS(regvar, bitname)\
     ((regvar & bitname##_MSK) >> bitname##_POS)
@@ -1141,6 +1144,13 @@ public:
   // @param length size of the buffer
   // @return BMI160_OK(0) means success
   int8_t getFIFOBytes(uint8_t* data, uint16_t length);
+
+  // Get gyro dirty status
+  // @return gyro dirty status
+  bool getGyroDirty();
+
+  // wait until gyro dirty status
+  void waitForGyroDirty();
 
   uint8_t onlyAccel=1;
   uint8_t onlyGyro=2;
