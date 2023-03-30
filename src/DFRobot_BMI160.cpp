@@ -38,8 +38,8 @@ DFRobot_BMI160::DFRobot_BMI160()
 }
 
 uint8_t DFRobot_BMI160::getChipID() {
-  uint8_t data = 0x00;
-  int8_t result = getRegister(Obmi160->comAddress, data);
+  uint8_t data = 0;
+  int8_t result = getRegs(BMI160_CHIP_ID_ADDR, &data, 1, Obmi160);
   if (result == BMI160_OK) {
     return data;
   }
@@ -509,7 +509,7 @@ int8_t DFRobot_BMI160::getSensorTime(uint32_t* time) {
 }
 
 int8_t DFRobot_BMI160::getTemperature(int16_t* output) {
-  uint8_t data[2] = {0,0};
+  uint8_t* data = new uint8_t[2];
   int8_t result = getRegs(BMI160_TEMPERATURE_ADDR, data, 2, Obmi160);
   if (result == BMI160_OK) {
     *output = (((int16_t)data[1]) << 8) | data[0];
@@ -520,15 +520,15 @@ int8_t DFRobot_BMI160::getTemperature(int16_t* output) {
 int8_t DFRobot_BMI160::getSensorData(uint8_t type, int16_t* data)
 {
   int8_t result=BMI160_OK;
-  if (type==onlyAccel){
-    result = getSensorData(BMI160_ACCEL_SEL, Oaccel, NULL, Obmi160);
+  if (type==onlyGyro){
+    result = getSensorData(BMI160_GYRO_SEL, NULL, Ogyro, Obmi160);
     if(result == BMI160_OK){
       data[0]=Ogyro->x;
       data[1]=Ogyro->y;
       data[2]=Ogyro->z;
     }
-  }else if(type==onlyGyro){
-    result = getSensorData(BMI160_GYRO_SEL, NULL, Ogyro, Obmi160); 
+  }else if(type==onlyAccel){
+    result = getSensorData(BMI160_ACCEL_SEL, Oaccel, NULL, Obmi160);
     if(result == BMI160_OK){
       data[0]=Oaccel->x;
       data[1]=Oaccel->y;
@@ -547,7 +547,6 @@ int8_t DFRobot_BMI160::getSensorData(uint8_t type, int16_t* data)
   }else{
     result = BMI160_ERR_CHOOSE; 
   }
-   
   return result;
 }
 
@@ -680,7 +679,6 @@ int8_t DFRobot_BMI160::getSensorData(uint8_t select_sensor, struct bmi160SensorD
   } else {
     result = BMI160_E_NULL_PTR;
   }
-
   return result;
 }
 
@@ -858,9 +856,7 @@ int8_t DFRobot_BMI160::getAccelGyroData(uint8_t len, struct bmi160SensorData *ac
 } 
 
 int8_t DFRobot_BMI160::getErrorRegister(uint8_t* code) {
-  uint8_t buffer = {0};
-  int8_t result = getRegister(BMI160_ERROR_REG_ADDR, buffer);
-  if (result == BMI160_OK) {*code = buffer;}
+  int8_t result = getRegs(BMI160_ERROR_REG_ADDR, code, 1, Obmi160);
   return result;
 }
 
@@ -876,9 +872,9 @@ int8_t DFRobot_BMI160::getBits(uint8_t address, uint8_t bitStart, uint8_t length
   return result;
 }
 
-int8_t DFRobot_BMI160::getRegister(uint8_t address, uint8_t data) {
-  return getRegs(address, &data, 1, Obmi160);
-}
+// int8_t DFRobot_BMI160::getRegister(uint8_t address, uint8_t data) {
+//   return getRegs(address, &data, 1, Obmi160);
+// }
 
 int8_t DFRobot_BMI160::getRegs(uint8_t reg_addr, uint8_t *data, uint8_t len, struct bmi160Dev *dev)
 {
