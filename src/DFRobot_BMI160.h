@@ -13,8 +13,6 @@
 #include <Wire.h>
 #include <SPI.h>
 
-#define LITTLE_ENDIAND 1  //renamed to avoid overdefinition
-
 //Mask definitions
 #define BMI160_ACCEL_BW_MASK                    UINT8_C(0x70)
 #define BMI160_ACCEL_ODR_MASK                   UINT8_C(0x0F)
@@ -23,109 +21,6 @@
 #define BMI160_GYRO_BW_MASK                     UINT8_C(0x30)
 #define BMI160_GYRO_ODR_MASK                    UINT8_C(0x0F)
 #define BMI160_GYRO_RANGE_MSK                   UINT8_C(0x07)
-
-//Mask definitions for INT_EN registers
-#define BMI160_ANY_MOTION_X_INT_EN_MASK         UINT8_C(0x01)
-#define BMI160_HIGH_G_X_INT_EN_MASK             UINT8_C(0x01)
-#define BMI160_NO_MOTION_X_INT_EN_MASK          UINT8_C(0x01)
-#define BMI160_ANY_MOTION_Y_INT_EN_MASK         UINT8_C(0x02)
-#define BMI160_HIGH_G_Y_INT_EN_MASK             UINT8_C(0x02)
-#define BMI160_NO_MOTION_Y_INT_EN_MASK          UINT8_C(0x02)
-#define BMI160_ANY_MOTION_Z_INT_EN_MASK         UINT8_C(0x04)
-#define BMI160_HIGH_G_Z_INT_EN_MASK             UINT8_C(0x04)
-#define BMI160_NO_MOTION_Z_INT_EN_MASK          UINT8_C(0x04)
-#define BMI160_SIG_MOTION_INT_EN_MASK           UINT8_C(0x07)
-#define BMI160_ANY_MOTION_ALL_INT_EN_MASK       UINT8_C(0x07)
-#define BMI160_STEP_DETECT_INT_EN_MASK          UINT8_C(0x08)
-#define BMI160_DOUBLE_TAP_INT_EN_MASK           UINT8_C(0x10)
-#define BMI160_SINGLE_TAP_INT_EN_MASK           UINT8_C(0x20)
-#define BMI160_FIFO_FULL_INT_EN_MASK            UINT8_C(0x20)
-#define BMI160_ORIENT_INT_EN_MASK               UINT8_C(0x40)
-#define BMI160_FIFO_WATERMARK_INT_EN_MASK       UINT8_C(0x40)
-#define BMI160_LOW_G_INT_EN_MASK                UINT8_C(0x08)
-#define BMI160_STEP_DETECT_EN_MASK              UINT8_C(0x08)
-#define BMI160_FLAT_INT_EN_MASK                 UINT8_C(0x80)
-#define BMI160_DATA_RDY_INT_EN_MASK             UINT8_C(0x10)
-
-//Mask definitions for INT_OUT_CTRL register
-#define BMI160_INT1_EDGE_CTRL_MASK              UINT8_C(0x01)
-#define BMI160_INT1_OUTPUT_MODE_MASK            UINT8_C(0x04)
-#define BMI160_INT1_OUTPUT_TYPE_MASK            UINT8_C(0x02)
-#define BMI160_INT1_OUTPUT_EN_MASK              UINT8_C(0x08)
-#define BMI160_INT2_EDGE_CTRL_MASK              UINT8_C(0x10)
-#define BMI160_INT2_OUTPUT_MODE_MASK            UINT8_C(0x40)
-#define BMI160_INT2_OUTPUT_TYPE_MASK            UINT8_C(0x20)
-#define BMI160_INT2_OUTPUT_EN_MASK              UINT8_C(0x80)
-
-//Mask definitions for INT_LATCH register
-#define BMI160_INT1_INPUT_EN_MASK               UINT8_C(0x10)
-#define BMI160_INT2_INPUT_EN_MASK               UINT8_C(0x20)
-#define BMI160_INT_LATCH_MASK                   UINT8_C(0x0F)
-
-//Mask definitions for INT_MAP register
-#define BMI160_INT1_LOW_G_MASK                  UINT8_C(0x01)
-#define BMI160_INT1_HIGH_G_MASK                 UINT8_C(0x02)
-#define BMI160_INT1_SLOPE_MASK                  UINT8_C(0x04)
-#define BMI160_INT1_NO_MOTION_MASK              UINT8_C(0x08)
-#define BMI160_INT1_DOUBLE_TAP_MASK             UINT8_C(0x10)
-#define BMI160_INT1_SINGLE_TAP_MASK             UINT8_C(0x20)
-#define BMI160_INT1_FIFO_FULL_MASK              UINT8_C(0x20)
-#define BMI160_INT1_FIFO_WM_MASK                UINT8_C(0x40)
-#define BMI160_INT1_ORIENT_MASK                 UINT8_C(0x40)
-#define BMI160_INT1_FLAT_MASK                   UINT8_C(0x80)
-#define BMI160_INT1_DATA_READY_MASK             UINT8_C(0x80)
-#define BMI160_INT2_LOW_G_MASK                  UINT8_C(0x01)
-#define BMI160_INT1_LOW_STEP_DETECT_MASK        UINT8_C(0x01)
-#define BMI160_INT2_LOW_STEP_DETECT_MASK        UINT8_C(0x01)
-#define BMI160_INT2_HIGH_G_MASK                 UINT8_C(0x02)
-#define BMI160_INT2_FIFO_FULL_MASK              UINT8_C(0x02)
-#define BMI160_INT2_FIFO_WM_MASK                UINT8_C(0x04)
-#define BMI160_INT2_SLOPE_MASK                  UINT8_C(0x04)
-#define BMI160_INT2_DATA_READY_MASK             UINT8_C(0x08)
-#define BMI160_INT2_NO_MOTION_MASK              UINT8_C(0x08)
-#define BMI160_INT2_DOUBLE_TAP_MASK             UINT8_C(0x10)
-#define BMI160_INT2_SINGLE_TAP_MASK             UINT8_C(0x20)
-#define BMI160_INT2_ORIENT_MASK                 UINT8_C(0x40)
-#define BMI160_INT2_FLAT_MASK                   UINT8_C(0x80)
-
-//Mask definitions for INT_DATA register
-#define BMI160_TAP_SRC_INT_MASK                 UINT8_C(0x08)
-#define BMI160_LOW_HIGH_SRC_INT_MASK            UINT8_C(0x80)
-#define BMI160_MOTION_SRC_INT_MASK              UINT8_C(0x80)
-
-//Mask definitions for INT_MOTION register
-#define BMI160_SLOPE_INT_DUR_MASK               UINT8_C(0x03)
-#define BMI160_NO_MOTION_INT_DUR_MASK           UINT8_C(0xFC)
-#define BMI160_NO_MOTION_SEL_BIT_MASK           UINT8_C(0x01)
-
-//Mask definitions for INT_TAP register
-#define BMI160_TAP_DUR_MASK                     UINT8_C(0x07)
-#define BMI160_TAP_SHOCK_DUR_MASK               UINT8_C(0x40)
-#define BMI160_TAP_QUIET_DUR_MASK               UINT8_C(0x80)
-#define BMI160_TAP_THRES_MASK                   UINT8_C(0x1F)
-
-//Mask definitions for INT_FLAT register
-#define BMI160_FLAT_THRES_MASK                  UINT8_C(0x3F)
-#define BMI160_FLAT_HOLD_TIME_MASK              UINT8_C(0x30)
-#define BMI160_FLAT_HYST_MASK                   UINT8_C(0x07)
-
-//Mask definitions for INT_LOWHIGH register
-#define BMI160_LOW_G_HYST_MASK                  UINT8_C(0x03)
-#define BMI160_LOW_G_LOW_MODE_MASK              UINT8_C(0x04)
-#define BMI160_HIGH_G_HYST_MASK                 UINT8_C(0xC0)
-
-//Mask definitions for INT_SIG_MOTION register
-#define BMI160_SIG_MOTION_SEL_MASK              UINT8_C(0x02)
-#define BMI160_SIG_MOTION_SKIP_MASK             UINT8_C(0x0C)
-#define BMI160_SIG_MOTION_PROOF_MASK            UINT8_C(0x30)
-
-//Mask definitions for INT_ORIENT register
-#define BMI160_ORIENT_MODE_MASK                 UINT8_C(0x03)
-#define BMI160_ORIENT_BLOCK_MASK                UINT8_C(0x0C)
-#define BMI160_ORIENT_HYST_MASK                 UINT8_C(0xF0)
-#define BMI160_ORIENT_THETA_MASK                UINT8_C(0x3F)
-#define BMI160_ORIENT_UD_ENABLE                 UINT8_C(0x40)
-#define BMI160_AXES_EN_MASK                     UINT8_C(0x80)
 
 //Mask definitions for FIFO_CONFIG register
 #define BMI160_FIFO_GYRO                        UINT8_C(0x80)
@@ -137,13 +32,6 @@
 #define BMI160_FIFO_HEADER                      UINT8_C(0x10)
 #define BMI160_FIFO_CONFIG_1_MASK               UINT8_C(0xFE)
 
-
-//Mask definitions for STEP_CONF register
-#define BMI160_STEP_COUNT_EN_BIT_MASK           UINT8_C(0x08)
-#define BMI160_STEP_DETECT_MIN_THRES_MASK       UINT8_C(0x18)
-#define BMI160_STEP_DETECT_STEPTIME_MIN_MASK    UINT8_C(0x07)
-#define BMI160_STEP_MIN_BUF_MASK                UINT8_C(0x07)
-
 //Mask definition for FIFO Header Data Tag
 #define BMI160_FIFO_TAG_INTR_MASK               UINT8_C(0xFC)
 
@@ -153,24 +41,6 @@
 //Enable/disable bit value
 #define BMI160_ENABLE                           UINT8_C(0x01)
 #define BMI160_DISABLE                          UINT8_C(0x00)
-
-//Latch Duration
-#define BMI160_LATCH_DUR_NONE                   UINT8_C(0x00)
-#define BMI160_LATCH_DUR_312_5_MICRO_SEC        UINT8_C(0x01)
-#define BMI160_LATCH_DUR_625_MICRO_SEC          UINT8_C(0x02)
-#define BMI160_LATCH_DUR_1_25_MILLI_SEC         UINT8_C(0x03)
-#define BMI160_LATCH_DUR_2_5_MILLI_SEC          UINT8_C(0x04)
-#define BMI160_LATCH_DUR_5_MILLI_SEC            UINT8_C(0x05)
-#define BMI160_LATCH_DUR_10_MILLI_SEC           UINT8_C(0x06)
-#define BMI160_LATCH_DUR_20_MILLI_SEC           UINT8_C(0x07)
-#define BMI160_LATCH_DUR_40_MILLI_SEC           UINT8_C(0x08)
-#define BMI160_LATCH_DUR_80_MILLI_SEC           UINT8_C(0x09)
-#define BMI160_LATCH_DUR_160_MILLI_SEC          UINT8_C(0x0A)
-#define BMI160_LATCH_DUR_320_MILLI_SEC          UINT8_C(0x0B)
-#define BMI160_LATCH_DUR_640_MILLI_SEC          UINT8_C(0x0C)
-#define BMI160_LATCH_DUR_1_28_SEC               UINT8_C(0x0D)
-#define BMI160_LATCH_DUR_2_56_SEC               UINT8_C(0x0E)
-#define BMI160_LATCHED                          UINT8_C(0x0F)
 
 //BMI160 Register map
 #define BMI160_CHIP_ID_ADDR                     UINT8_C(0x00)
@@ -645,16 +515,6 @@ struct bmi160FifoFrame {
   uint8_t  skippedFrameCount;  // Value of Skipped frame counts
 };
 
-// Enumerator for bmi160 any & significant motion interrupt states.
-// -1 - all motion interupts disabled.
-// 0 - any-motion interupt enabled.
-// 1 - significant-motion interupt enabled.
-enum eBmi160AnySigMotionActiveInterruptState { 
-  eBmi160BothAnySigMotionDisabled = -1, 
-  eBmi160AnyMotionEnabled,              
-  eBmi160SigMotionEnabled               
-};
-
 // Enumerator for selecting which BMI160 sensor to read
 // 1 - read only the accelerometer
 // 2 - read only the gyro
@@ -691,7 +551,6 @@ struct bmi160Dev {
   uint8_t chipId;                 // Value read from Chip ID register
   uint8_t comAddress;             // I2C address or SPI select pin
   uint8_t interface;              // 0 - I2C,   1 - SPI Interface
-  enum eBmi160AnySigMotionActiveInterruptState any_sig_sel;
   struct bmi160Cfg accelCfg;      // Structure to configure Accel sensor
   struct bmi160Cfg prevAccelCfg;  // Keep old accelerometer config seperate to avoid overwritting
   struct bmi160Cfg gyroCfg;       // Structure to configure Gyro sensor
@@ -710,252 +569,6 @@ struct bmi160SensorData {
   int16_t y;           // Y-axis sensor data
   int16_t z;           // Z-axis sensor data
   uint32_t sensortime; // Sensor time
-};
-
-//Enumerator for choosing which interupt channels to match.
-enum bmi160IntChannel {
-  BMI160_INT_CHANNEL_NONE, // Un-map both channels
-  BMI160_INT_CHANNEL_1,    // interrupt Channel 1
-  BMI160_INT_CHANNEL_2,    // interrupt Channel 2
-  BMI160_INT_CHANNEL_BOTH  // Map both channels
-};
-
-//Enumberator for interupt types
-enum bmi160IntTypes {
-  BMI160_ACC_ANY_MOTION_INT,         // Slope/Any-motion interrupt
-  BMI160_ACC_SIG_MOTION_INT,         // Significant motion interrupt
-  BMI160_STEP_DETECT_INT,            // Step detector interrupt
-  BMI160_ACC_DOUBLE_TAP_INT,         // Double tap interrupt
-  BMI160_ACC_SINGLE_TAP_INT,         // Single tap interrupt
-  BMI160_ACC_ORIENT_INT,             // Orientation interrupt
-  BMI160_ACC_FLAT_INT,               // Flat interrupt
-  BMI160_ACC_HIGH_G_INT,             // High-g interrupt
-  BMI160_ACC_LOW_G_INT,              // Low-g interrupt
-  BMI160_ACC_SLOW_NO_MOTION_INT,     // Slow/no-motion interrupt
-  BMI160_ACC_GYRO_DATA_RDY_INT,      // Data ready interrupt
-  BMI160_ACC_GYRO_FIFO_FULL_INT,     // FIFO full interrupt
-  BMI160_ACC_GYRO_FIFO_WATERMARK_INT // FIFO watermark interrupt
-};
-
-//Interrupt pin setting structure
-struct bmi160IntPinSettg {
-#if LITTLE_ENDIAND == 1
-  uint16_t outputEn :1;   /**< To enable either INT1 or INT2 pin as output. 0- output disabled ,1- output enabled */
-  uint16_t outputMode :1; /**< 0 - push-pull 1- open drain,only valid if outputEn is set 1 */
-  uint16_t outputType :1; /**< 0 - active low , 1 - active high level. if outputEn is 1,this applies to interrupts,else PMU_trigger */
-  uint16_t edgeCtrl :1;   /**< 0 - level trigger , 1 - edge trigger  */
-  uint16_t inputEn :1;    /**< To enable either INT1 or INT2 pin as input. 0 - input disabled ,1 - input enabled */
-  uint16_t latchDur :4;   /**< latch duration*/
-#elif BIG_ENDIAND == 1
-  uint16_t latchDur : 4;  /**< latch duration*/
-  uint16_t inputEn : 1;   /**< Latched,non-latched or temporary interrupt modes */
-  uint16_t edgeCtrl : 1;  /**< 1 - edge trigger, 0 - level trigger */
-  uint16_t outputType : 1;/**< 0 - active low , 1 - active high level. if outputEn is 1,this applies to interrupts,else PMU_trigger */
-  uint16_t outputMode : 1;/**< 0 - push-pull , 1 - open drain,only valid if outputEn is set 1 */
-  uint16_t outputEn : 1;  /**< To enable either INT1 or INT2 pin as output. 0 - output disabled , 1 - output enabled */
-#endif
-};
-
-//Tap interrupt structure
-struct bmi160AccTapIntCfg {
-#if LITTLE_ENDIAND == 1
-  uint16_t tapThr :5;     /**< tap threshold */
-  uint16_t tapShock :1;   /**< tap shock */
-  uint16_t tapQuiet :1;   /**< tap quiet */
-  uint16_t tapDur :3;     /**< tap duration */
-  uint16_t tapDataSrc :1; /**< data source 0- filter & 1 pre-filter*/
-  uint16_t tapEn :1;      /**< tap enable, 1 - enable, 0 - disable */
-#elif BIG_ENDIAND == 1
-  uint16_t tapEn :1;     /**< tap enable, 1 - enable, 0 - disable */
-  uint16_t tapDataSrc :1;/**< data source 0- filter & 1 pre-filter*/
-  uint16_t tapDur : 3;   /**< tap duration */
-  uint16_t tapQuiet : 1; /**< tap quiet */
-  uint16_t tapShock : 1; /**< tap shock */
-  uint16_t tapThr : 5;   /**< tap threshold */
-#endif
-};
-
-//Slope interrupt structure
-struct bmi160AccAnyMotIntCfg {
-#if LITTLE_ENDIAND == 1
-  uint8_t anymotionEn :1;     /**< 1 any-motion enable, 0 - any-motion disable */
-  uint8_t anymotionX :1;      /**< slope interrupt x, 1 - enable, 0 - disable */
-  uint8_t anymotionY :1;      /**< slope interrupt y, 1 - enable, 0 - disable */
-  uint8_t anymotionZ :1;      /**< slope interrupt z, 1 - enable, 0 - disable */
-  uint8_t anymotionDur :2;    /**< slope duration */
-  uint8_t anymotionDataSrc :1;/**< data source 0- filter & 1 pre-filter*/
-  uint8_t anymotionThr;       /**< slope threshold */
-#elif BIG_ENDIAND == 1
-  uint8_t anymotionThr;       /**< slope threshold */
-  uint8_t anymotionDataSrc :1;/**< data source 0- filter & 1 pre-filter*/
-  uint8_t anymotionDur : 2;   /**< slope duration */
-  uint8_t anymotionZ : 1;     /**< slope interrupt z, 1 - enable, 0 - disable */
-  uint8_t anymotionY : 1;     /**< slope interrupt y, 1 - enable, 0 - disable */
-  uint8_t anymotionX : 1;     /**< slope interrupt x, 1 - enable, 0 - disable */
-  uint8_t anymotionEn :1;     /**< 1 any-motion enable, 0 - any-motion disable */
-#endif
-};
-
-//Significant motion interrupt structure
-struct bmi160AccSigMotIntCfg {
-#if LITTLE_ENDIAND == 1
-  uint8_t sigMotSkip :2;  /**< skip time of sig-motion interrupt */
-  uint8_t sigMotProof :2; /**< proof time of sig-motion interrupt */
-  uint8_t sigDataSrc :1;  /**< data source 0- filter & 1 pre-filter*/
-  uint8_t sigEn :1;       /**< 1 - enable sig, 0 - disable sig & enable anymotion */
-  uint8_t sigMotThres;    /**< sig-motion threshold */
-#elif BIG_ENDIAND == 1
-  uint8_t sigMotThres;    /**< sig-motion threshold */
-  uint8_t sigEn :1;       /**< 1 - enable sig, 0 - disable sig & enable anymotion */
-  uint8_t sigDataSrc :1;  /**< data source 0- filter & 1 pre-filter*/
-  uint8_t sigMotProof : 2;/**< proof time of sig-motion interrupt */
-  uint8_t sigMotSkip : 2; /**< skip time of sig-motion interrupt */
-#endif
-};
-
-//Step detector interrupt structure
-struct bmi160AccStepDetectIntCfg {
-#if LITTLE_ENDIAND == 1
-  uint16_t stepDetectorEn :1;  /**< 1- step detector enable, 0- step detector disable */
-  uint16_t minThreshold :2;    /**< minimum threshold */
-  uint16_t steptimeMin :3;     /**< minimal detectable step time */
-  uint16_t stepDetectorMode :2;/**< enable step counter mode setting */
-  uint16_t stepMinBuf :3;      /**< minimum step buffer size*/
-#elif BIG_ENDIAND == 1
-  uint16_t stepMinBuf :3;       /**< minimum step buffer size*/
-  uint16_t stepDetectorMode : 2;/**< enable step counter mode setting */
-  uint16_t steptimeMin : 3;     /**< minimal detectable step time */
-  uint16_t minThreshold : 2;    /**< minimum threshold */
-  uint16_t stepDetectorEn :1;   /**< 1- step detector enable, 0- step detector disable */
-#endif
-};
-
-// No motion interrupt structure
-struct bmi160AccNoMotionIntCfg {
-#if LITTLE_ENDIAND == 1
-  uint16_t noMotionX :1;  /**< no motion interrupt x */
-  uint16_t noMotionY :1;  /**< no motion interrupt y */
-  uint16_t noMotionZ :1;  /**< no motion interrupt z */
-  uint16_t noMotionDur :6;/**< no motion duration */
-  uint16_t noMotionSel :1;/**< no motion sel , 1 - enable no-motion ,0- enable slow-motion */
-  uint16_t noMotionSrc :1;/**< data source 0- filter & 1 pre-filter*/
-  uint8_t noMotionThres;  /**< no motion threshold */
-#elif BIG_ENDIAND == 1
-  uint8_t noMotionThres;   /**< no motion threshold */
-  uint16_t noMotionSrc :1; /**< data source 0- filter & 1 pre-filter*/
-  uint16_t noMotionSel : 1;/**< no motion sel , 1 - enable no-motion ,0- enable slow-motion */
-  uint16_t noMotionDur : 6;/**< no motion duration */
-  uint16_t noMotionZ :1;   /**< no motion interrupt z */
-  uint16_t noMotionY :1;   /**< no motion interrupt y */
-  uint16_t noMotionX :1;   /**< no motion interrupt x */
-#endif
-};
-
-//Orientation interrupt structure
-struct bmi160AccOrientIntCfg {
-#if LITTLE_ENDIAND == 1
-  uint16_t orientMode :2;    /**< thresholds for switching between the different orientations */
-  uint16_t orientBlocking :2;/**< blocking_mode */
-  uint16_t orientHyst :4;    /**< Orientation interrupt hysteresis */
-  uint16_t orientTheta :6;   /**< Orientation interrupt theta */
-  uint16_t orientUdEn :1;    /**< Enable/disable Orientation interrupt */
-  uint16_t axesEx :1;        /**< exchange x- and z-axis in algorithm ,0 - z, 1 - x */
-  uint8_t orientEn :1;       /**< 1 - orient enable, 0 - orient disable */
-#elif BIG_ENDIAND == 1
-  uint8_t orientEn :1;        /**< 1 - orient enable, 0 - orient disable */
-  uint16_t axesEx : 1;        /**< exchange x- and z-axis in algorithm ,0 - z, 1 - x */
-  uint16_t orientUdEn : 1;    /**< Enable/disable Orientation interrupt */
-  uint16_t orientTheta : 6;   /**< Orientation interrupt theta */
-  uint16_t orientHyst : 4;    /**< Orientation interrupt hysteresis */
-  uint16_t orientBlocking : 2;/**< blocking_mode */
-  uint16_t orientMode : 2;    /**< thresholds for switching between the different orientations */
-#endif
-};
-
-//Flat interrupt structure
-struct bmi160AccFlatDetectIntCfg {
-#if LITTLE_ENDIAND == 1
-  uint16_t flatTheta :6;    /**< flat threshold */
-  uint16_t flatHy :3;       /**< flat interrupt hysteresis */
-  uint16_t flatHoldTime :2; /**< delay time for which the flat value must remain stable for the flat interrupt to be generated */
-  uint16_t flatEn :1;       /**< 1 - flat enable, 0 - flat disable */
-#elif BIG_ENDIAND == 1
-  uint16_t flatEn :1;         /**< 1 - flat enable, 0 - flat disable */
-  uint16_t flatHoldTime : 2;  /**< delay time for which the flat value must remain stable for the flat interrupt to be generated */
-  uint16_t flatHy : 3;        /**< flat interrupt hysteresis */
-  uint16_t flatTheta : 6;     /**< flat threshold */
-#endif
-};
-
-//Low-g interrupt structure
-struct bmi160AccLowGIntCfg {
-#if LITTLE_ENDIAND == 1
-  uint8_t lowDur;       /**< low-g interrupt trigger delay */
-  uint8_t lowThres;     /**< low-g interrupt trigger threshold */
-  uint8_t lowHyst :2;   /**< hysteresis of low-g interrupt */
-  uint8_t lowMode :1;   /**< 0 - single-axis mode ,1 - axis-summing mode */
-  uint8_t lowDataSrc :1;/**< data source 0- filter & 1 pre-filter */
-  uint8_t lowEn :1;     /**< 1 - enable low-g, 0 - disable low-g */
-#elif BIG_ENDIAND == 1
-  uint8_t lowEn :1;     /**< 1 - enable low-g, 0 - disable low-g */
-  uint8_t lowDataSrc :1;/**< data source 0- filter & 1 pre-filter */
-  uint8_t lowMode : 1;  /**< 0 - single-axis mode ,1 - axis-summing mode */
-  uint8_t lowHyst : 2;  /**< hysteresis of low-g interrupt */
-  uint8_t lowThres;     /**< low-g interrupt trigger threshold */
-  uint8_t lowDur;       /**< low-g interrupt trigger delay */
-#endif
-};
-
-//High-g interrupt structure
-struct bmi160AccHighGIntCfg {
-#if LITTLE_ENDIAND == 1
-  uint8_t high_g_x :1;    /**< High-g interrupt x, 1 - enable, 0 - disable */
-  uint8_t high_g_y :1;    /**< High-g interrupt y, 1 - enable, 0 - disable */
-  uint8_t high_g_z :1;    /**< High-g interrupt z, 1 - enable, 0 - disable */
-  uint8_t highHy :2;      /**< High-g hysteresis  */
-  uint8_t highDataSrc :1; /**< data source 0- filter & 1 pre-filter */
-  uint8_t highThres;      /**< High-g threshold */
-  uint8_t highDur;        /**< High-g duration */
-#elif BIG_ENDIAND == 1
-  uint8_t highDur;       /**< High-g duration */
-  uint8_t highThres;     /**< High-g threshold */
-  uint8_t highDataSrc :1;/**< data source 0- filter & 1 pre-filter */
-  uint8_t highHy : 2;    /**< High-g hysteresis  */
-  uint8_t high_g_z : 1;  /**< High-g interrupt z, 1 - enable, 0 - disable */
-  uint8_t high_g_y : 1;  /**< High-g interrupt y, 1 - enable, 0 - disable */
-  uint8_t high_g_x : 1;  /**< High-g interrupt x, 1 - enable, 0 - disable */
-#endif
-};
-
-//Union for storing interrupt configuration structures
-union bmi160IntTypeCfg {
-  struct bmi160AccTapIntCfg        accTapInt;        // Tap interrupt structure
-  struct bmi160AccAnyMotIntCfg     accAnyMotionInt;  // Slope interrupt structure
-  struct bmi160AccSigMotIntCfg     accSigMotionInt;  // Significant motion interrupt structure
-  struct bmi160AccStepDetectIntCfg accStepDetectInt; // Step detector interrupt structure
-  struct bmi160AccNoMotionIntCfg   accNoMotionInt;   // No motion interrupt structure
-  struct bmi160AccOrientIntCfg     accOrientInt;     // Orientation interrupt structure
-  struct bmi160AccFlatDetectIntCfg accFlatInt;       // Flat interrupt structure
-  struct bmi160AccLowGIntCfg       accLowGInt;       // Low-g interrupt structure
-  struct bmi160AccHighGIntCfg      accHighGInt;      // High-g interrupt structure
-};
-
-//Structure for storing interupt pin settings
-struct bmi160IntSettg {
-  enum bmi160IntChannel    intChannel;  // Interrupt channel
-  enum bmi160IntTypes      intType;     // Select Interrupt
-  struct bmi160IntPinSettg intPinSettg; // Structure configuring Interrupt pins
-  union bmi160IntTypeCfg   intTypeCfg;  // Union configures required interrupt
-  uint8_t fifoFullIntEn :1;             // FIFO FULL INT 1-enable, 0-disable
-  uint8_t fifoWTMIntEn :1;              // FIFO WTM INT 1-enable, 0-disable
-};
-
-//Enumerator for step detection mode
-enum bmi160StepDetectMode {
-  BMI160_STEP_DETECT_NORMAL,
-  BMI160_STEP_DETECT_SENSITIVE,
-  BMI160_STEP_DETECT_ROBUST,
-  BMI160_STEP_DETECT_USER_DEFINE   // User definition not recommended
 };
 
 class DFRobot_BMI160{
@@ -1044,25 +657,6 @@ public:
   // Reset bmi160 hardware
   // @return BMI160_OK(0) means success
   int8_t softReset();
-  
-  // et interrupt number and choosing step detector interrupt
-  // @param intNum choose int1 or int2
-  // @return BMI160_OK(0) means success
-  int8_t setInt(int intNum);
-  
-  // Enable the step counter
-  // @return BMI160_OK(0) means success
-  int8_t setStepCounter();
-  
-  // Read the step counter from bmi160
-  // @param stepVal pointer to store the step 
-  // @return BMI160_OK(0) means success
-  int8_t readStepCounter(uint16_t *stepVal);
-  
-  // Set the step power model
-  // @param model type of model 
-  // @return BMI160_OK(0) means success
-  int8_t setStepPowerMode(uint8_t model);
 
   // Set a specified register in the BMI160
   // @param address register to set
@@ -1200,20 +794,6 @@ public:
 
     int8_t SPIGetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint8_t len);
     int8_t SPISetRegs(struct bmi160Dev *dev, uint8_t reg_addr, uint8_t *data, uint8_t len);
-    
-    int8_t setInt(struct bmi160Dev *dev, int intNum);
-    int8_t setIntConfig(struct bmi160IntSettg *intConfig, struct bmi160Dev *dev);
-    int8_t setAccelStepDetectInt(struct bmi160IntSettg *intConfig, struct bmi160Dev *dev);
-    int8_t enableStepDetectInt(struct bmi160AccStepDetectIntCfg *stepDetectIntCfg, struct bmi160Dev *dev);
-    int8_t setIntrPinConfig(struct bmi160IntSettg *intConfig, struct bmi160Dev *dev);
-    int8_t configIntOutCtrl(struct bmi160IntSettg *intConfig, struct bmi160Dev *dev);
-    int8_t configIntLatch(struct bmi160IntSettg *intConfig, struct bmi160Dev *dev);
-    int8_t mapFeatureInterrupt(struct bmi160IntSettg *intConfig, struct bmi160Dev *dev);
-    int8_t configStepDetect(struct bmi160AccStepDetectIntCfg *stepDetectIntCfg, struct bmi160Dev *dev);
-
-    int8_t setStepCounter(uint8_t step_cnt_enable, struct bmi160Dev *dev);
-    int8_t setStepPowerMode(uint8_t model,struct bmi160Dev *dev);
-    int8_t readStepCounter(uint16_t *stepVal, struct bmi160Dev *dev);
 
     struct bmi160Dev* Obmi160;
     struct bmi160SensorData* Oaccel;
